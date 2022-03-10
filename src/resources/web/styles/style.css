@@ -1,0 +1,44 @@
+body {
+    color: white;
+    background-color: #2b2b2b;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.login {
+    position: fixed;
+    text-align: center;
+    width: 100%;
+    top: 25%;
+    z-index: 10;
+}
+
+.registerScreen {
+    position: fixed;
+    text-align: center;
+    top: 25%;
+    left: -50%;
+    z-index: 10;
+}
+
+.badInput {
+    background-color: red;
+}
+
+@keyframes registerLogin {
+    0% {left: 0%;}
+    100% {left: 150%;}
+}
+
+@keyframes registerRegisterScreen {
+    100% {left: 45%;}
+}
+
+@keyframes registeredLogin {
+    0% {left: 150%}
+    100% {left: 0%;}
+}
+
+@keyframes registeredRegisterScreen {
+    0% {left: 45%;}
+    100% {left: -50%;}
+}

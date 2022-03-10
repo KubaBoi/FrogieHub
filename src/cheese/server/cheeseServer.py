@@ -11,6 +11,9 @@ from cheese.ErrorCodes import Error
 from python.authorization import Authorization
 
 #REST CONTROLLERS
+from python.controllers.authenticationController import AuthenticationController
+from python.controllers.serviceController import ServiceController
+from python.controllers.userController import UserController
 
 
 """
@@ -29,10 +32,21 @@ class CheeseHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
             path = CheeseController.getPath(self.path)
-            auth = None
+            auth = Authorization.authorize(self, path, "GET")
 
             if (path == "/"):
                 CheeseController.serveFile(self, "index.html")
+            elif (path.startswith("/authentication")):
+                pass
+            elif (path.startswith("/services")):
+                if (path.startswith("/services/getServices")):
+                    ServiceController.getServices(self, self.path, auth)
+                elif (path.startswith("/services/doYouKnowMe")):
+                    ServiceController.doYouKnowMe(self, self.path, auth)
+                else:
+                    CheeseController.serveFile(self, self.path)
+            elif (path.startswith("/users")):
+                pass
             else:
                 CheeseController.serveFile(self, self.path)
         
@@ -42,8 +56,28 @@ class CheeseHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
-            auth = None
+            auth = Authorization.authorize(self, self.path, "POST")
 
+            if (self.path.startswith("/authentication")):
+                if (self.path.startswith("/authentication/login")):
+                    AuthenticationController.login(self, self.path, auth)
+                elif (self.path.startswith("/authentication/getUserByToken")):
+                    AuthenticationController.getUserByToken(self, self.path, auth)
+                else:
+                    Error.sendCustomError(self, "Endpoint not found :(", 404)
+            elif (self.path.startswith("/services")):
+                pass
+            elif (self.path.startswith("/users")):
+                if (self.path.startswith("/users/createUser")):
+                    UserController.createUser(self, self.path, auth)
+                elif (self.path.startswith("/users/getUser")):
+                    UserController.getUser(self, self.path, auth)
+                elif (self.path.startswith("/users/getUserByName")):
+                    UserController.getUserByName(self, self.path, auth)
+                else:
+                    Error.sendCustomError(self, "Endpoint not found :(", 404)
+            else:
+                Error.sendCustomError(self, "Endpoint not found :(", 404)
 
         except Exception as e:
             Logger.fail(str(e))

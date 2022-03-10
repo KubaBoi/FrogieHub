@@ -7,6 +7,10 @@ from cheese.resourceManager import ResMan
 from cheese.databaseControll.database import Database
 
 #REPOSITORIES
+from cheese.repositories.passwordRepositoryImpl import PasswordRepositoryImpl
+from cheese.repositories.serviceRepositoryImpl import ServiceRepositoryImpl
+from cheese.repositories.tokenRepositoryImpl import TokenRepositoryImpl
+from cheese.repositories.userRepositoryImpl import UserRepositoryImpl
 
 
 """
@@ -17,12 +21,144 @@ Database query of Cheese Application
 
 class CheeseRepository:
 
+    @staticmethod
+    def findValidPassword(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "passwordRepository"):
+            return PasswordRepositoryImpl.findValidPassword(args)
+    @staticmethod
+    def findNewId(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "passwordRepository"):
+            return PasswordRepositoryImpl.findNewId(args)
+        elif (userRepository == "serviceRepository"):
+            return ServiceRepositoryImpl.findNewId(args)
+        elif (userRepository == "tokenRepository"):
+            return TokenRepositoryImpl.findNewId(args)
+        elif (userRepository == "userRepository"):
+            return UserRepositoryImpl.findNewId(args)
+    @staticmethod
+    def findServices(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "serviceRepository"):
+            return ServiceRepositoryImpl.findServices(args)
+    @staticmethod
+    def findByName(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "serviceRepository"):
+            return ServiceRepositoryImpl.findByName(args)
+    @staticmethod
+    def findTokenByIdAndIpAndActive(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "tokenRepository"):
+            return TokenRepositoryImpl.findTokenByIdAndIpAndActive(args)
+    @staticmethod
+    def findToken(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "tokenRepository"):
+            return TokenRepositoryImpl.findToken(args)
+    @staticmethod
+    def validateTokenUnique(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "tokenRepository"):
+            return TokenRepositoryImpl.validateTokenUnique(args)
+    @staticmethod
+    def authorizeYourselfByToken(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "tokenRepository"):
+            return TokenRepositoryImpl.authorizeYourselfByToken(args)
+    @staticmethod
+    def findUserByCredentials(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "userRepository"):
+            return UserRepositoryImpl.findUserByCredentials(args)
+    @staticmethod
+    def findUserByName(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "userRepository"):
+            return UserRepositoryImpl.findUserByName(args)
+    @staticmethod
+    def findUserById(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "userRepository"):
+            return UserRepositoryImpl.findUserById(args)
+    @staticmethod
+    def validateUserName(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "userRepository"):
+            return UserRepositoryImpl.validateUserName(args)
+    @staticmethod
+    def findUserByIpAndToken(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "userRepository"):
+            return UserRepositoryImpl.findUserByIpAndToken(args)
+    @staticmethod
+    def findUsersDynamic(args):
+        userRepository = CheeseRepository.findUserRepository()
+        args = CheeseRepository.getTypeOf(args)
+
+        if (userRepository == "userRepository"):
+            return UserRepositoryImpl.findUsersDynamic(args)
 
 
+    @staticmethod
+    def save(args):
+        userRepository = CheeseRepository.findUserRepository()
+
+        if (userRepository == "passwordRepository"):
+            return PasswordRepositoryImpl.save(args)
+        elif (userRepository == "serviceRepository"):
+            return ServiceRepositoryImpl.save(args)
+        elif (userRepository == "tokenRepository"):
+            return TokenRepositoryImpl.save(args)
+        elif (userRepository == "userRepository"):
+            return UserRepositoryImpl.save(args)
+    @staticmethod
+    def update(args):
+        userRepository = CheeseRepository.findUserRepository()
+
+        if (userRepository == "passwordRepository"):
+            return PasswordRepositoryImpl.update(args)
+        elif (userRepository == "serviceRepository"):
+            return ServiceRepositoryImpl.update(args)
+        elif (userRepository == "tokenRepository"):
+            return TokenRepositoryImpl.update(args)
+        elif (userRepository == "userRepository"):
+            return UserRepositoryImpl.update(args)
 
 
     @staticmethod
     def initRepositories():
+        PasswordRepositoryImpl.init()
+        ServiceRepositoryImpl.init()
+        TokenRepositoryImpl.init()
+        UserRepositoryImpl.init()
 
         pass
 
