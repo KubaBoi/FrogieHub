@@ -8,7 +8,7 @@ async function buildServiceTable() {
 }
 
 function createService(service) {
-    mainScreen = document.querySelector("#mainScreen");
+    center = document.querySelector("#center");
 
     div = document.createElement("div");
     a = document.createElement("a");
@@ -32,5 +32,5 @@ function createService(service) {
     div.appendChild(a);
     div.appendChild(desc);
 
-    mainScreen.appendChild(div);
+    center.appendChild(div);
 }

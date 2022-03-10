@@ -1,3 +1,5 @@
+buildServiceTable();
+
 if (getCookie("username") != "") 
     document.querySelector("#fname").value = getCookie("username");
 if (getCookie("password") != "") 
@@ -11,8 +13,6 @@ async function loginButton() {
 
         connectedUser = loginResponse.USER;
         token = loginResponse.TOKEN;
-
-        buildServiceTable();
 
         document.getElementById("loginScreen").style.animation = "mainLoginAnim 1s forwards";
         document.getElementById("mainScreen").style.animation = "mainScreenAnim 1s forwards";

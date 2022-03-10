@@ -3,13 +3,18 @@
     height: 100%;
     opacity: 0%;
     z-index: 0;
-    padding-left: 10px;
+    text-align: center;
+}
+
+.center {
+    margin: 0 auto;
+    display: table;
 }
 
 .gallery {
     padding: auto;
-    margin: 15px;
     float: left;
+    margin: 15px;
     width: 180px;
 }
   
@@ -55,7 +60,7 @@
 }
 
 @keyframes mainScreenAnim {
-    0% { opacity: 0%; transform: scale(0); }
+    0% { opacity: 0%; transform: scale(10); }
     100% { opacity: 100%; transform:scale(1); z-index: 20; }
 }
 
