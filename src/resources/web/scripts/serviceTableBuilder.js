@@ -19,9 +19,9 @@ function createService(service) {
     desc.setAttribute("class", "desc");
 
     a.setAttribute("target", "_blank");
-    a.setAttribute("href", "http://localhost:" + service.PORT);
+    a.setAttribute("href", "http://" + location.host + ":" + service.PORT);
 
-    img.setAttribute("src", "http://localhost:8000/files/" + service.ICON);
+    img.setAttribute("src", "http://" + location.host + ":8000/files/" + service.ICON);
     img.setAttribute("alt", service.ICON);
     img.setAttribute("width", "300px");
     img.setAttribute("height", "300px");
