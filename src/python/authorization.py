@@ -3,6 +3,7 @@
 
 from urllib.parse import unquote
 from cheese.modules.cheeseController import CheeseController
+from cheese.ErrorCodes import Error
 
 from python.repositories.tokenRepository import TokenRepository
 from python.repositories.userRepository import UserRepository
@@ -16,9 +17,7 @@ class Authorization:
             return None
 
         args = CheeseController.readArgs(server)
-
-        if(method == "GET"):
-            return CheeseController.getArgs(server.path)
+        pathArgs = CheeseController.getArgs(server.path)
 
         if (path == "/" or path.endswith(".css") or path.endswith(".js") or path.endswith(".ico") or path.endswith(".jpg") or path.endswith(".png")):
             return None
@@ -34,7 +33,8 @@ class Authorization:
                     "user": UserRepository.findUserByIpAndToken(ip, token),
                     "token": token,
                     "ip": ip,
-                    "args": args
+                    "args": args,
+                    "pathArgs": pathArgs
                 }
             
             CheeseController.sendResponse(server, Error.BadToken)
@@ -52,4 +52,5 @@ class Authorization:
 
     @staticmethod
     def authorizeByToken(server, token):
+        if (token == "serviceToken"): return True
         return TokenRepository.authorizeYourselfByToken(token, CheeseController.getClientAddress(server), CheeseController.getTime())

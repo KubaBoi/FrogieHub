@@ -12,7 +12,7 @@ from python.models.Service import Service
 #@controller /services
 class ServiceController(CheeseController):
 
-    #@get /getServices
+    #@post /getServices
     @staticmethod
     def getServices(server, path, auth):
         services = ServiceRepository.findServices()
@@ -23,18 +23,19 @@ class ServiceController(CheeseController):
         response = CheeseController.createResponse({"RESPONSE": data}, 200)
         CheeseController.sendResponse(server, response)
 
-    #@get /doYouKnowMe
+    #@post /doYouKnowMe
     @staticmethod
     def doYouKnowMe(server, path, auth):
-        
+        args = auth["pathArgs"]
+
         #bad request
-        if (not CheeseController.validateJson(["name", "port", "icon"], auth)):
+        if (not CheeseController.validateJson(["name", "port", "icon"], args)):
             Error.sendCustomError(server, "Bad request", 400)
             return
 
-        name = auth["name"].replace("_", " ")
-        port = auth["port"]
-        icon = auth["icon"].replace("_", " ")
+        name = args["name"].replace("_", " ")
+        port = args["port"]
+        icon = args["icon"].replace("_", " ")
 
         service = ServiceRepository.findByName(name)
         if (service == None):

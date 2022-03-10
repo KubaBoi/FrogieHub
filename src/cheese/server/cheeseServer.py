@@ -39,12 +39,7 @@ class CheeseHandler(BaseHTTPRequestHandler):
             elif (path.startswith("/authentication")):
                 pass
             elif (path.startswith("/services")):
-                if (path.startswith("/services/getServices")):
-                    ServiceController.getServices(self, self.path, auth)
-                elif (path.startswith("/services/doYouKnowMe")):
-                    ServiceController.doYouKnowMe(self, self.path, auth)
-                else:
-                    CheeseController.serveFile(self, self.path)
+                pass
             elif (path.startswith("/users")):
                 pass
             else:
@@ -63,10 +58,17 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     AuthenticationController.login(self, self.path, auth)
                 elif (self.path.startswith("/authentication/getUserByToken")):
                     AuthenticationController.getUserByToken(self, self.path, auth)
+                elif (self.path.startswith("/authentication/authorizeToken")):
+                    AuthenticationController.authorizeToken(self, self.path, auth)
                 else:
                     Error.sendCustomError(self, "Endpoint not found :(", 404)
             elif (self.path.startswith("/services")):
-                pass
+                if (self.path.startswith("/services/getServices")):
+                    ServiceController.getServices(self, self.path, auth)
+                elif (self.path.startswith("/services/doYouKnowMe")):
+                    ServiceController.doYouKnowMe(self, self.path, auth)
+                else:
+                    Error.sendCustomError(self, "Endpoint not found :(", 404)
             elif (self.path.startswith("/users")):
                 if (self.path.startswith("/users/createUser")):
                     UserController.createUser(self, self.path, auth)

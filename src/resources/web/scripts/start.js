@@ -1,15 +1,40 @@
-buildServiceTable();
+autoLogin();
+async function autoLogin() {
+    if (getCookie("username") != "") 
+        document.querySelector("#fname").value = getCookie("username");
+    if (getCookie("password") != "") 
+        document.querySelector("#fpass").value = getCookie("password");
 
-if (getCookie("username") != "") 
-    document.querySelector("#fname").value = getCookie("username");
-if (getCookie("password") != "") 
-    document.querySelector("#fpass").value = getCookie("password");
+    if (getCookie("token") != "") {
+        response = await authorizeToken();
+        if (response.ERROR == null) {
+            buildServiceTable();
+            document.getElementById("loginScreen").style.animation = "mainLoginAnim 1s forwards";
+            document.getElementById("mainScreen").style.animation = "mainScreenAnim 1s forwards";
+
+            if (getCookie("user") != "") {
+                connectedUser = getCookie("user");
+            }
+            else {
+                response = await getUserByToken();
+                if (response.ERROR == null) {
+                    setCookie("user", response.USER, 5);
+                }
+            }
+
+            setCookie("token", getCookie("token"), 5);
+            setCookie("user", connectedUser, 5);
+        }
+    }
+}
 
 async function loginButton() {
     loginResponse = await login();
     if (loginResponse.ERROR == null) {
         setCookie("username", document.getElementById("fname").value, 5);
         setCookie("password", document.getElementById("fpass").value, 5);
+        setCookie("token", loginResponse.TOKEN, 5);
+        setCookie("user", loginResponse.USER, 5);
 
         connectedUser = loginResponse.USER;
         token = loginResponse.TOKEN;

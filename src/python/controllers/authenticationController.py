@@ -67,11 +67,17 @@ class AuthenticationController(CheeseController):
 
         user = UserRepository.findUserByIpAndToken(ip, token)
         
-        response = CheeseController.createResponse({"USER": user}, 200)
+        response = CheeseController.createResponse({"USER": user.toJson()}, 200)
 
         CheeseController.sendResponse(server, response)
 
-
+    #@post /authorizeToken
+    @staticmethod
+    def authorizeToken(server, path, auth):
+        if (auth != None):
+            AuthenticationController.updateToken(auth["ip"], auth["token"])
+            response = CheeseController.createResponse({"OK": "OK"}, 200)
+            CheeseController.sendResponse(server, response)
 
     #METHODS
 
