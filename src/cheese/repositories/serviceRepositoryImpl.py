@@ -58,7 +58,7 @@ class ServiceRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select {ServiceRepositoryImpl.schemeNoBrackets} from services;")
+            response = Database.query(f"select {ServiceRepositoryImpl.schemeNoBrackets} from services order by port;")
             Database.done()
         except Exception as e:
             Logger.fail(str(e))

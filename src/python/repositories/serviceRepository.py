@@ -8,7 +8,7 @@ from cheese.modules.cheeseRepository import CheeseRepository
 #@dbmodel Service
 class ServiceRepository(CheeseRepository):
 
-    #@query "select * from services;"
+    #@query "select * from services order by port;"
     #@return array
     @staticmethod
     def findServices():

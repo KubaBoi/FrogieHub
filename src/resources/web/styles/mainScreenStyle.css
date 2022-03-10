@@ -7,19 +7,25 @@
 }
 
 .gallery {
-    margin: 5px;
-    border: 1px solid #ccc;
+    padding: auto;
+    margin: 15px;
     float: left;
     width: 180px;
-}
-
-.gallery:hover {
-    border: 1px solid #777;
 }
   
 .gallery img {
     width: 100%;
     height: auto;
+    border-radius: 30%;
+    transform: translateY(0px);
+    transition: all 0.5s;
+}
+
+.gallery img:hover {
+    border-radius: 5%;
+    transition: all 0.5s;
+    animation: float 6s ease-in-out infinite;
+    box-shadow: 0 5px 20px 0px
 }
   
 .desc {
@@ -31,6 +37,21 @@
     position: fixed;
     right: 5px;
     bottom: 5px;
+}
+
+@keyframes float {
+	0% {
+		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+		transform: translatey(0px);
+	}
+	50% {
+		box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
+		transform: translatey(-20px);
+	}
+	100% {
+		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
+		transform: translatey(0px);
+	}
 }
 
 @keyframes mainScreenAnim {
