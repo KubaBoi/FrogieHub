@@ -16,10 +16,10 @@ class Authorization:
     def authorize(server, path, method):
         if (path.startswith("/users/uploadProfilePicture")):
             return None
-
+        Logger.bold("donry")
         args = CheeseController.readArgs(server)
         pathArgs = CheeseController.getArgs(server.path)
-
+        Logger.bold("dobry?")
         if (path == "/" or path.endswith(".css") or path.endswith(".js") or path.endswith(".ico") or path.endswith(".jpg") or path.endswith(".png")):
             return None
         elif (path.startswith("/authentication/login")):
