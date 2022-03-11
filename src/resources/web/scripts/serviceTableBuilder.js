@@ -35,6 +35,15 @@ function createService(service) {
     center.appendChild(div);
 
     services.push({"DIV": img, "URL": "http://" + location.host + ":" + service.PORT});
+    fetch("http://" + location.host + ":" + service.PORT + "/alive")
+        .then(
+            (response) => {
+                img.setAttribute("class", "img");
+            },
+            (err) => {
+                img.setAttribute("class", "dead");
+            }
+          );
 }
 
 setInterval(checkLife, 10000);
