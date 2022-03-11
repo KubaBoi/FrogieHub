@@ -2,4 +2,6 @@
 var token;
 var connectedUser;
 
-var debug = true;
+var services = [];
+
+var debug = false;

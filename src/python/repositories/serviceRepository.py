@@ -4,7 +4,7 @@
 from cheese.modules.cheeseRepository import CheeseRepository
 
 #@repository services
-#@dbscheme (id, name, port, icon)
+#@dbscheme (id, name, port, icon, color)
 #@dbmodel Service
 class ServiceRepository(CheeseRepository):
 

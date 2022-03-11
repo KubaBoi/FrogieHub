@@ -29,22 +29,24 @@ class ServiceController(CheeseController):
         args = auth["pathArgs"]
 
         #bad request
-        if (not CheeseController.validateJson(["name", "port", "icon"], args)):
+        if (not CheeseController.validateJson(["name", "port", "icon", "color"], args)):
             Error.sendCustomError(server, "Bad request", 400)
             return
 
         name = args["name"].replace("_", " ")
         port = args["port"]
         icon = args["icon"].replace("_", " ")
+        color = args["color"]
 
         service = ServiceRepository.findByName(name)
         if (service == None):
-            id = ServiceRepository.findNewId()
-            service = Service(id, name, port, icon)
+            id = ServiceRepository.findNewId() + 1
+            service = Service(id, name, port, icon, color)
             ServiceRepository.save(service)
         else:
             service.port = port
             service.icon = icon
+            service.color = color
             ServiceRepository.update(service)
 
         response = CheeseController.createResponse({"OK": "OK"}, 200)

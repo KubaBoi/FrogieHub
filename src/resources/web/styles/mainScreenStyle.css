@@ -12,11 +12,12 @@
 }
 
 .gallery {
-    padding: auto;
     float: left;
     margin: 20px;
     width: 180px;
+    transition: all 0.5s;
 }
+
   
 .gallery img {
     width: 100%;
@@ -24,13 +25,22 @@
     border-radius: 30%;
     transform: translateY(0px);
     transition: all 0.5s;
+    animation: aliveUnactive 6s ease-in-out infinite;
+}
+
+.gallery .dead {
+    width: 100%;
+    height: auto;
+    border-radius: 30%;
+    pointer-events: none;
+    animation: dead 2s ease-in-out infinite;
 }
 
 .gallery img:hover {
     border-radius: 5%;
     transition: all 0.5s;
-    animation: float 6s ease-in-out infinite;
-    box-shadow: 0 5px 20px 0px
+    transform: translateY(-10px);
+    animation: aliveHover 6s ease-in-out infinite;
 }
   
 .desc {
@@ -44,23 +54,26 @@
     bottom: 5px;
 }
 
-@keyframes float {
-	0% {
-		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
-		transform: translatey(0px);
-	}
-	50% {
-		box-shadow: 0 25px 15px 0px rgba(0,0,0,0.2);
-		transform: translatey(-20px);
-	}
-	100% {
-		box-shadow: 0 5px 15px 0px rgba(0,0,0,0.6);
-		transform: translatey(0px);
-	}
+@keyframes dead {
+    0% { box-shadow: 0px 0px 10px 1px red; }
+    50% { box-shadow: 0px 0px 20px 10px red; }
+    100% { box-shadow: 0px 0px 10px 1px red; }
+}
+
+@keyframes aliveUnactive {
+    0% { box-shadow: 0px 0px 10px 1px rgba(48, 177, 48, 0.2); }
+    50% { box-shadow: 0px 0px 20px 5px rgba(48, 177, 48, 0.4); }
+    100% { box-shadow: 0px 0px 10px 1px rgba(48, 177, 48, 0.2); }
+}
+
+@keyframes aliveHover {
+    0% { box-shadow: 0px 5px 10px 10px rgba(48, 177, 48, 0.6); }
+    50% { box-shadow: 0px 5px 20px 8px rgba(48, 177, 48, 0.5); }
+    100% { box-shadow: 0px 5px 10px 10px rgba(48, 177, 48, 0.6); }
 }
 
 @keyframes mainScreenAnim {
-    0% { opacity: 0%; transform: scale(10); }
+    0% { opacity: 0%; transform: scale(15); }
     100% { opacity: 100%; transform:scale(1); z-index: 20; }
 }
 

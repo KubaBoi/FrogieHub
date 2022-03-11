@@ -12,3 +12,13 @@ function getServices() {
         });  
     });
 }
+
+function alive(url) {
+    url += "/alive";
+    
+    return new Promise(resolve => {
+        sendGet(url, debug, function(response){
+            resolve(response);
+        });  
+    });
+}

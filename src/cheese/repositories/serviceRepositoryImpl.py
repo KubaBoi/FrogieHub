@@ -12,8 +12,8 @@ class ServiceRepositoryImpl:
     @staticmethod
     def init():
         ServiceRepositoryImpl.table = "services"
-        ServiceRepositoryImpl.scheme = "(id,name,port,icon)"
-        ServiceRepositoryImpl.schemeNoBrackets = "id,name,port,icon"
+        ServiceRepositoryImpl.scheme = "(id,name,port,icon,color)"
+        ServiceRepositoryImpl.schemeNoBrackets = "id,name,port,icon,color"
 
     @staticmethod
     def convert(var):
@@ -41,6 +41,7 @@ class ServiceRepositoryImpl:
         model.name = ServiceRepositoryImpl.convert(obj[1])
         model.port = ServiceRepositoryImpl.convert(obj[2])
         model.icon = ServiceRepositoryImpl.convert(obj[3])
+        model.color = ServiceRepositoryImpl.convert(obj[4])
         return model
 
     @staticmethod
@@ -49,7 +50,8 @@ class ServiceRepositoryImpl:
             model.id,
             model.name,
             model.port,
-            model.icon
+            model.icon,
+            model.color
         )
         return tuple
 

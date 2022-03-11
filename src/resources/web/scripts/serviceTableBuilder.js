@@ -23,8 +23,8 @@ function createService(service) {
 
     img.setAttribute("src", "http://" + location.host + ":8000/files/" + service.ICON);
     img.setAttribute("alt", service.ICON);
-    img.setAttribute("width", "300px");
-    img.setAttribute("height", "300px");
+    img.setAttribute("width", "180px");
+    img.setAttribute("height", "180px");
 
     desc.innerHTML = service.NAME;
 
@@ -33,4 +33,21 @@ function createService(service) {
     div.appendChild(desc);
 
     center.appendChild(div);
+
+    services.push({"DIV": img, "URL": "http://" + location.host + ":" + service.PORT});
+}
+
+setInterval(checkLife, 1000);
+async function checkLife() {
+    for (let i = 0; i < services.length; i++) {
+        fetch(services[i].URL + "/alive")
+        .then(
+            (response) => {
+                services[i].DIV.setAttribute("class", "img");
+            },
+            (err) => {
+                services[i].DIV.setAttribute("class", "dead");
+            }
+          );
+    }
 }
