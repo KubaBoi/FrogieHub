@@ -53,5 +53,5 @@ class Authorization:
     @staticmethod
     def authorizeByToken(server, token):
         if (token == "serviceToken"): return True
-        Logger.fail(token + CheeseController.getClientAddress(server) + CheeseController.getTime())
+        Logger.fail(str(token) + str(CheeseController.getClientAddress(server)) + str(CheeseController.getTime()))
         return TokenRepository.authorizeYourselfByToken(token, CheeseController.getClientAddress(server), CheeseController.getTime())
