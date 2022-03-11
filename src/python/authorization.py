@@ -16,10 +16,10 @@ class Authorization:
     def authorize(server, path, method):
         if (path.startswith("/users/uploadProfilePicture")):
             return None
-        Logger.bold("donry")
+            
         args = CheeseController.readArgs(server)
         pathArgs = CheeseController.getArgs(server.path)
-        Logger.bold("dobry?")
+        
         if (path == "/" or path.endswith(".css") or path.endswith(".js") or path.endswith(".ico") or path.endswith(".jpg") or path.endswith(".png")):
             return None
         elif (path.startswith("/authentication/login")):
@@ -27,10 +27,12 @@ class Authorization:
         elif (path.startswith("/users/createUser")):
             return {"args": args}
         else:
-            token = Authorization.getToken(server, args)
-            if (Authorization.authorizeByToken(server, token)):
+            if (CheeseController.validateJson(["ip"], args)):
+                ip = args["ip"]
+            else:
                 ip = CheeseController.getClientAddress(server)
-                Logger.bold("tady to proslo")
+            token = Authorization.getToken(server, args)
+            if (Authorization.authorizeByToken(ip, token)):
                 return {
                     "user": UserRepository.findUserByIpAndToken(ip, token),
                     "token": token,
@@ -51,7 +53,6 @@ class Authorization:
         return args["TOKEN"]
 
     @staticmethod
-    def authorizeByToken(server, token):
+    def authorizeByToken(ip, token):
         if (token == "serviceToken"): return True
-        Logger.fail(str(token) + str(CheeseController.getClientAddress(server)) + str(CheeseController.getTime()))
-        return TokenRepository.authorizeYourselfByToken(token, CheeseController.getClientAddress(server), CheeseController.getTime())
+        return TokenRepository.authorizeYourselfByToken(token, ip, CheeseController.getTime())
