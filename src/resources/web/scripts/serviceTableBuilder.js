@@ -46,7 +46,7 @@ function createService(service) {
           );
 }
 
-setInterval(checkLife, 10000);
+setInterval(checkLife, 30000);
 async function checkLife() {
     for (let i = 0; i < services.length; i++) {
         fetch(services[i].URL + "/alive")
