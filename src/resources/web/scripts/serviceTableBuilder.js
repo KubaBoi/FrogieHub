@@ -37,7 +37,7 @@ function createService(service) {
     services.push({"DIV": img, "URL": "http://" + location.host + ":" + service.PORT});
 }
 
-setInterval(checkLife, 1000);
+setInterval(checkLife, 10000);
 async function checkLife() {
     for (let i = 0; i < services.length; i++) {
         fetch(services[i].URL + "/alive")
