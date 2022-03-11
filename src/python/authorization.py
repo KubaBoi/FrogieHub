@@ -4,6 +4,7 @@
 from urllib.parse import unquote
 from cheese.modules.cheeseController import CheeseController
 from cheese.ErrorCodes import Error
+from cheese.Logger import Logger
 
 from python.repositories.tokenRepository import TokenRepository
 from python.repositories.userRepository import UserRepository
@@ -29,6 +30,7 @@ class Authorization:
             token = Authorization.getToken(server, args)
             if (Authorization.authorizeByToken(server, token)):
                 ip = CheeseController.getClientAddress(server)
+                Logger.bold("tady to proslo")
                 return {
                     "user": UserRepository.findUserByIpAndToken(ip, token),
                     "token": token,
@@ -51,4 +53,5 @@ class Authorization:
     @staticmethod
     def authorizeByToken(server, token):
         if (token == "serviceToken"): return True
+        Logger.fail(token + CheeseController.getClientAddress(server) + CheeseController.getTime())
         return TokenRepository.authorizeYourselfByToken(token, CheeseController.getClientAddress(server), CheeseController.getTime())

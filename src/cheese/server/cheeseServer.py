@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from distutils.log import Log
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from socketserver import ThreadingMixIn
 import threading
@@ -39,6 +40,7 @@ class CheeseHandler(BaseHTTPRequestHandler):
             auth = Authorization.authorize(self, path, "GET")
             if (auth == -1): 
                 CheeseController.sendResponse(self, Error.BadToken)
+                Logger.fail("1")
                 return
 
             if (path == "/"):
@@ -69,6 +71,7 @@ class CheeseHandler(BaseHTTPRequestHandler):
                 elif (self.path.startswith("/authentication/getUserByToken")):
                     AuthenticationController.getUserByToken(self, self.path, auth)
                 elif (self.path.startswith("/authentication/authorizeToken")):
+                    Logger.bold("v endpointu")
                     AuthenticationController.authorizeToken(self, self.path, auth)
                 else:
                     Error.sendCustomError(self, "Endpoint not found :(", 404)

@@ -6,6 +6,7 @@ import random
 
 from cheese.modules.cheeseController import CheeseController
 from cheese.ErrorCodes import Error
+from cheese.Logger import Logger
 
 from python.repositories.userRepository import UserRepository
 from python.repositories.passwordRepository import PasswordRepository
@@ -74,6 +75,7 @@ class AuthenticationController(CheeseController):
     #@post /authorizeToken
     @staticmethod
     def authorizeToken(server, path, auth):
+        Logger.bold(str(auth))
         if (auth != None):
             AuthenticationController.updateToken(auth["ip"], auth["token"])
             response = CheeseController.createResponse({"OK": "OK"}, 200)
