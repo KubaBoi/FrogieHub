@@ -36,9 +36,7 @@ class Authorization:
                     "args": args,
                     "pathArgs": pathArgs
                 }
-            
-            CheeseController.sendResponse(server, Error.BadToken)
-            return None
+            return -1
 
 
     @staticmethod
