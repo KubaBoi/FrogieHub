@@ -13,7 +13,7 @@
 
 .gallery {
     float: left;
-    margin: 20px;
+    margin: 35px;
     width: 180px;
     transition: all 0.5s;
 }
@@ -45,12 +45,6 @@
 .desc {
     padding: 15px;
     text-align: center;
-}
-
-#frameworkLabel {
-    position: fixed;
-    right: 5px;
-    bottom: 5px;
 }
 
 @keyframes dead {
