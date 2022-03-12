@@ -7,7 +7,7 @@
 }
 
 .center {
-    margin: 0 auto;
+    margin: auto auto;
     display: table;
 }
 
