@@ -160,3 +160,15 @@ class TokenRepositoryImpl:
             Logger.fail(str(e))
             return False
 
+    @staticmethod
+    def delete(args):
+        obj = TokenRepositoryImpl.fromModel(args[0])
+
+        try:
+            Database.commit(f"delete {TokenRepositoryImpl.table} set {TokenRepositoryImpl.scheme} = {obj} where id={obj[0]};")
+            Database.done()
+            return True
+        except Exception as e:
+            Logger.fail(str(e))
+            return False
+

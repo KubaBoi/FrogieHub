@@ -4,6 +4,8 @@ async function buildServiceTable() {
         for (let i = 0; i < response.RESPONSE.length; i++) {
             createService(response.RESPONSE[i]);
         }
+        checkLife();
+        setInterval(checkLife, 30000);
     }
 }
 
@@ -25,6 +27,7 @@ function createService(service) {
     img.setAttribute("alt", service.ICON);
     img.setAttribute("width", "180px");
     img.setAttribute("height", "180px");
+    img.setAttribute("class", "img");
 
     desc.innerHTML = service.NAME;
 
@@ -35,18 +38,8 @@ function createService(service) {
     center.appendChild(div);
 
     services.push({"DIV": img, "URL": "http://" + location.host + ":" + service.PORT});
-    fetch("http://" + location.host + ":" + service.PORT + "/alive")
-        .then(
-            (response) => {
-                img.setAttribute("class", "img");
-            },
-            (err) => {
-                img.setAttribute("class", "dead");
-            }
-          );
 }
 
-setInterval(checkLife, 30000);
 async function checkLife() {
     for (let i = 0; i < services.length; i++) {
         fetch(services[i].URL + "/alive")

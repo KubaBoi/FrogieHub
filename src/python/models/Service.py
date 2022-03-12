@@ -1,4 +1,3 @@
-from operator import iconcat
 from cheese.modules.cheeseModel import CheeseModel
 
 #@model

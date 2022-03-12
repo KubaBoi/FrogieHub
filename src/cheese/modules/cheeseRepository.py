@@ -151,6 +151,18 @@ class CheeseRepository:
             return TokenRepositoryImpl.update(args)
         elif (userRepository == "userRepository"):
             return UserRepositoryImpl.update(args)
+    @staticmethod
+    def delete(args):
+        userRepository = CheeseRepository.findUserRepository()
+
+        if (userRepository == "passwordRepository"):
+            return PasswordRepositoryImpl.delete(args)
+        elif (userRepository == "serviceRepository"):
+            return ServiceRepositoryImpl.delete(args)
+        elif (userRepository == "tokenRepository"):
+            return TokenRepositoryImpl.delete(args)
+        elif (userRepository == "userRepository"):
+            return UserRepositoryImpl.delete(args)
 
 
     @staticmethod

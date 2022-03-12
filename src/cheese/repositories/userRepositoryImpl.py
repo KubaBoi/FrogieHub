@@ -189,3 +189,15 @@ class UserRepositoryImpl:
             Logger.fail(str(e))
             return False
 
+    @staticmethod
+    def delete(args):
+        obj = UserRepositoryImpl.fromModel(args[0])
+
+        try:
+            Database.commit(f"delete {UserRepositoryImpl.table} set {UserRepositoryImpl.scheme} = {obj} where id={obj[0]};")
+            Database.done()
+            return True
+        except Exception as e:
+            Logger.fail(str(e))
+            return False
+
