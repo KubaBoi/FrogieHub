@@ -110,7 +110,7 @@ class PasswordRepositoryImpl:
         obj = PasswordRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"delete {PasswordRepositoryImpl.table} set {PasswordRepositoryImpl.scheme} = {obj} where id={obj[0]};")
+            Database.commit(f"delete from {PasswordRepositoryImpl.table} where id={obj[0]};")
             Database.done()
             return True
         except Exception as e:

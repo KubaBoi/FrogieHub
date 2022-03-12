@@ -129,7 +129,7 @@ class ServiceRepositoryImpl:
         obj = ServiceRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"delete {ServiceRepositoryImpl.table} set {ServiceRepositoryImpl.scheme} = {obj} where id={obj[0]};")
+            Database.commit(f"delete from {ServiceRepositoryImpl.table} where id={obj[0]};")
             Database.done()
             return True
         except Exception as e:
