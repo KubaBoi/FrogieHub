@@ -60,8 +60,9 @@ class ServiceRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select {ServiceRepositoryImpl.schemeNoBrackets} from services order by port;")
-            Database.done()
+            db = Database()
+            response = db.query(f"select {ServiceRepositoryImpl.schemeNoBrackets} from services order by port;")
+            db.done()
         except Exception as e:
             Logger.fail(str(e))
 
@@ -76,8 +77,9 @@ class ServiceRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select count(*) from services;")
-            Database.done()
+            db = Database()
+            response = db.query(f"select count(*) from services;")
+            db.done()
         except Exception as e:
             Logger.fail(str(e))
 
@@ -90,8 +92,9 @@ class ServiceRepositoryImpl:
 
         response = None
         try:
-            response = Database.query(f"select {ServiceRepositoryImpl.schemeNoBrackets} from services where name={name};")
-            Database.done()
+            db = Database()
+            response = db.query(f"select {ServiceRepositoryImpl.schemeNoBrackets} from services where name={name};")
+            db.done()
         except Exception as e:
             Logger.fail(str(e))
 
@@ -105,8 +108,9 @@ class ServiceRepositoryImpl:
         obj = ServiceRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"insert into {ServiceRepositoryImpl.table} {ServiceRepositoryImpl.scheme} values {obj};")
-            Database.done()
+            db = Database()
+            db.commit(f"insert into {ServiceRepositoryImpl.table} {ServiceRepositoryImpl.scheme} values {obj};")
+            db.done()
             return True
         except Exception as e:
             Logger.fail(str(e))
@@ -117,8 +121,9 @@ class ServiceRepositoryImpl:
         obj = ServiceRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"update {ServiceRepositoryImpl.table} set {ServiceRepositoryImpl.scheme} = {obj} where id={obj[0]};")
-            Database.done()
+            db = Database()
+            db.commit(f"update {ServiceRepositoryImpl.table} set {ServiceRepositoryImpl.scheme} = {obj} where id={obj[0]};")
+            db.done()
             return True
         except Exception as e:
             Logger.fail(str(e))
@@ -129,8 +134,9 @@ class ServiceRepositoryImpl:
         obj = ServiceRepositoryImpl.fromModel(args[0])
 
         try:
-            Database.commit(f"delete from {ServiceRepositoryImpl.table} where id={obj[0]};")
-            Database.done()
+            db = Database()
+            db.commit(f"delete from {ServiceRepositoryImpl.table} where id={obj[0]};")
+            db.done()
             return True
         except Exception as e:
             Logger.fail(str(e))

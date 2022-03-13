@@ -26,7 +26,7 @@ class Cheese:
         Cheese.printInit()
 
         # log new line
-        Logger.info(2*"\n" + 10*"=" + f"Start in file {ResMan.path}" + 10*"=")
+        Logger.info(10*"=" + f"Start in file {ResMan.path}" + 10*"=" + "\n", False)
 
         # init errors
         Error.init()
@@ -35,8 +35,15 @@ class Cheese:
         Settings.loadSettings()
 
         # connect to database
+        Logger.warning("Initializing database connection...")
         if (Settings.allowDB):
-            Database.connect()
+            try:
+                db = Database()
+                db.connect()
+                db.close()
+                Logger.okBlue(f"CONNECTED TO {Settings.dbHost}:{Settings.dbPort} {Settings.dbName}")
+            except Exception as e:
+                Logger.fail(f"CONNECTION TO {Settings.dbHost}:{Settings.dbPort} {Settings.dbName} CANNOT BE DONE:{Logger.WARNING}\n{str(e)}")
 
         #initialization of repositories
         CheeseRepository.initRepositories()
