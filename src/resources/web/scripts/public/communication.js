@@ -1,3 +1,4 @@
+debug = true;
 function sendPost(url, jsonRequest, output, callback) {
     var xmlHttp = new XMLHttpRequest(); 
     

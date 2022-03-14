@@ -1,5 +1,6 @@
 
 import os
+import json
 
 from cheese.modules.cheeseController import CheeseController
 from cheese.Logger import Logger
@@ -11,23 +12,25 @@ class AdminManager:
 
     @staticmethod
     def controller(server):
-        if (server.path.endswith(".js") or
-            server.path.endswith(".css") or
-            server.path.endswith(".png")):
-            pass
-        elif (not AdminManager.authorizeAsAdmin(server)):
+        if (not AdminManager.authorizeAsAdmin(server)):
             AdminManager.__sendFile(server, "/admin/login.html")
             return
 
         if (server.path == "/admin"):
             AdminManager.__sendFile(server, "/admin/index.html") 
             return
-        elif (server.path == "/admin/createUser"):
+        elif (server.path == "/admin/createUser"): #TODO
             AdminManager.__createUser(server)
             return
-        elif (server.path == "/admin/logs"):
+        elif (server.path.startswith("/admin/logs")):
             AdminManager.__showLogs(server)
             return 
+        elif (server.path == "/admin/getSettings"):
+            AdminManager.__getSettings(server)
+            return
+        elif (server.path == "/admin/getActiveLog"):
+            AdminManager.__getActiveLog(server)
+            return
         AdminManager.__sendFile(server, server.path)        
         
 
@@ -63,5 +66,24 @@ class AdminManager:
     @staticmethod
     def __showLogs(server):
         CheeseController.sendResponse(server, Logger.serveLogs(server), "text/html")
+
+    @staticmethod
+    def __getSettings(server):
+        js = Settings.loadJson()
+        CheeseController.sendResponse(server, (bytes(json.dumps(js), "utf-8"), 200), "text/html")
+
+    @staticmethod
+    def __getActiveLog(server):
+        for root, dirs, files in os.walk(ResMan.logs()):
+            activeLog = files[-2]
+        
+        log = ResMan.joinPath(ResMan.logs(), activeLog)
+        with open(f"{log}", "r") as f:
+            lines = f.readlines()
+            min = 0
+            if (len(lines) >= 1000): min = len(lines) - 1000
+            onlyTable = "".join(lines[min:(min+1000)])
+        response = CheeseController.createResponse({"RESPONSE": {"LOG_DESC": activeLog, "LOG": onlyTable}}, 200)
+        CheeseController.sendResponse(server, response, "text/html")
 
         
