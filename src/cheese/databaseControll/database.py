@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from sqlite3 import connect
+import time
+
 from cheese.appSettings import Settings
 from cheese.Logger import Logger
 from cheese.databaseControll.postgreDB import PostgreDB
@@ -24,7 +27,14 @@ class Database:
         else:
             self.db = SQLServerDB()
 
-        self.db.connect()
+        connected = False
+        while not connected:
+            try:
+                self.db.connect()
+                connected = True
+            except:
+                Logger.warning("Too many clients connected to database, waiting for one second")
+                time.sleep(1)
 
     # close connection with database
     def close(self):

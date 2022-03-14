@@ -31,7 +31,7 @@ class PostgreDB:
 
     # select query
     def query(self, sql):
-        Logger.okBlue(Logger.WARNING + "QUERY: " + Logger.ENDC + sql)
+        Logger.okCyan(Logger.WARNING + "QUERY: " + Logger.ENDC + Logger.OKCYAN + sql)
         try:
             self.cursor.execute(sql)
         except:
@@ -44,7 +44,7 @@ class PostgreDB:
     # insert, update ...
     def commit(self, sql):
         if (Settings.allowCommit):
-            Logger.okBlue(Logger.WARNING + "COMMIT: " + Logger.ENDC + sql)
+            Logger.okBlue(Logger.WARNING + "COMMIT: " + Logger.ENDC + Logger.OKBLUE + sql)
             try:
                 self.cursor.execute(sql)
             except:
