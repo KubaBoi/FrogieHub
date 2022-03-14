@@ -5,7 +5,7 @@ import json
 import time
 import math
 
-maxReq = 150
+maxReq = 60
 ok = 0
 error = 0
 

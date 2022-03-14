@@ -185,7 +185,7 @@ class Logger:
             response += "<h1>Cheese Logs</h1><table>"
             for name in files:
                 if (not name.endswith(".log")): continue
-                response += f"<tr><td><a href='/logs/{name.replace('.log', '.html')}'>"
+                response += f"<tr><td><a href='/admin/logs/{name.replace('.log', '.html')}'>"
                 response += f"{name.replace('.log', '.html')}</a></td>"
                 response += f"<td>{os.path.getsize(ResMan.joinPath(ResMan.logs(), name))}</td></tr>"
             response += "</table></body></html>"
@@ -194,7 +194,7 @@ class Logger:
     @staticmethod
     def serveLogs(server):
         path = server.path
-        if (path == "/logs" or path == "/logs/"):
+        if (path == "/admin/logs" or path == "/admin/logs/"):
             logging.file(f"listing log files: {server.client_address[0]}")
             return Logger.listLogs()
 

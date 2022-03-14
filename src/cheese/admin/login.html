@@ -1,0 +1,24 @@
+<html lang="cs">
+<head>
+    <meta charset='utf-8'>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="admin/web/styles/style.css">
+    <link rel="icon" href="admin/web/favicon.ico" type="image/x-icon">
+    <title>Giga CHADmin</title>
+</head>
+<body>
+    <script src="admin/scripts/cookies.js"></script>
+    <script>
+        var redirect = "/admin"
+        loginFunction();
+        function loginFunction() {
+            var user = prompt("Login as admin:", "");
+            var pass = prompt("Password:", "")
+            
+            setCookie("adminName", user, 0.1);
+            setCookie("adminPass", pass, 0.1);
+
+            window.location = redirect;
+        }
+    </script>
+</body>

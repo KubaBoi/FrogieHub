@@ -14,6 +14,7 @@ class that stores Cheese Application settings
 class Settings:
 
     settings = {}
+    adminSettings = {}
 
     # load settings
     @staticmethod 
@@ -33,4 +34,6 @@ class Settings:
             Settings.allowMultiThreading = Settings.settings["allowMultiThreading"]
             Settings.allowCORS = Settings.settings["allowCORS"]
             Settings.allowDB = Settings.settings["allowDB"]
-            Settings.allowLogReader = Settings.settings["allowLogReader"]
+
+        with open(f"{ResMan.root()}/adminSettings.json", "r") as f:
+            Settings.adminSettings = json.loads(f.read())
