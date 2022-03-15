@@ -9,7 +9,7 @@ function apiFunction(url) {
 async function restart() {
     clearInterval(updateInterval);
     apiFunction("/admin/restart");
-    buildLogTable();
+    setTimeout(buildLogTable, 500);
     setTimeout(prepareRestart, 5000);
     setTimeout(checkLife, 15000);
 }
@@ -22,7 +22,7 @@ async function checkLife() {
     fetch("/alive")
     .then(
         (response) => {
-            location.reload();
+            updateInterval = setInterval(update, 1000);
         },
         (err) => {
             setTimeout(checkLife, 500);

@@ -104,7 +104,10 @@ class AdminManager:
         for root, dirs, files in os.walk(ResMan.src()):
             server.server.socket.close()
             time.sleep(5)
-            subprocess.call(f"{sys.executable} \"{ResMan.joinPath(ResMan.src(), files[0])}\"")
+            if (os.name == "nt"):
+                subprocess.call(f"{sys.executable} \"{ResMan.joinPath(ResMan.src(), files[0])}\"")
+            else:
+                subprocess.call(f"{sys.executable} \"{ResMan.joinPath(ResMan.src(), files[0])}\"", shell=True)
 
     @staticmethod
     def __shutDown(server):
