@@ -5,7 +5,7 @@ async function buildServiceTable() {
             createService(response.RESPONSE[i]);
         }
         checkLife();
-        setInterval(checkLife, 30000);
+        setInterval(checkLife, 1000);
     }
 }
 
