@@ -56,7 +56,10 @@ class CheeseHandler(BaseHTTPRequestHandler):
             elif (path.startswith("/users")):
                 pass
             else:
-                CheeseController.serveFile(self, self.path)
+                if (self.path.endswith(".css")):
+                    CheeseController.serveFile(self, self.path, "text/css")
+                else:
+                    CheeseController.serveFile(self, self.path)
         
         except Exception as e:
             Logger.fail("An error occurred", e)
