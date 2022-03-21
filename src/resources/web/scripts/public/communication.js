@@ -34,3 +34,25 @@ function sendGet(url, output, callback) {
     xmlHttp.setRequestHeader("Content-Type", "text/plain;charset=UTF-8;");
     xmlHttp.send();
 }
+
+function callEndpoint(type, url, request) {
+    if (type == "GET") {
+        return new Promise(resolve => {
+            sendGet(url, debug, function(response) {
+                resolve(response);
+            });
+        });
+    } else if (type == "POST") {
+        var request = JSON.stringify(request);
+        return new Promise(resolve => {
+            sendPost(url, request, debug, function(response) {
+                resolve(response);
+            });
+        });
+    }
+    else {
+        console.log("Unknown type (Had to be GET or POST");
+        console.log(type);
+        return null;
+    }
+}
