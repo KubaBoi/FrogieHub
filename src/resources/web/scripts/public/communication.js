@@ -24,7 +24,7 @@ function sendGet(url, output, callback) {
     if (output) console.log("SENDING", date.getTime(), url);
 
     xmlHttp.onreadystatechange = function() { 
-        if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+        if (xmlHttp.readyState == 4) {
             json = JSON.parse(this.responseText);
             if(output) console.log("RESPONSE", date.getTime(), url, json);
             if(callback) callback(json);
