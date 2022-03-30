@@ -62,7 +62,7 @@ class CheeseHandler(BaseHTTPRequestHandler):
                     CheeseController.serveFile(self, self.path)
         
         except Exception as e:
-            Logger.fail("An error occurred", e)
+            Logger.fail("An error unknown occurred", e)
             Error.sendCustomError(self, "Internal server error :(", 500)
 
     def do_POST(self):
@@ -102,7 +102,7 @@ class CheeseHandler(BaseHTTPRequestHandler):
                 Error.sendCustomError(self, "Endpoint not found :(", 404)
 
         except Exception as e:
-            Logger.fail("An error occurred", e)
+            Logger.fail("An error unknown occurred", e)
             Error.sendCustomError(self, "Internal server error :(", 500)
 
     def end_headers(self):

@@ -64,7 +64,7 @@ class ServiceRepositoryImpl:
             response = db.query(f"select {ServiceRepositoryImpl.schemeNoBrackets} from services order by port;")
             db.done()
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while query request", str(e))
 
         if (response == None): return response
         resp = []
@@ -81,7 +81,7 @@ class ServiceRepositoryImpl:
             response = db.query(f"select count(*) from services;")
             db.done()
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while query request", str(e))
 
         if (response == None): return response
         return int(response[0][0])
@@ -96,7 +96,7 @@ class ServiceRepositoryImpl:
             response = db.query(f"select {ServiceRepositoryImpl.schemeNoBrackets} from services where name={name};")
             db.done()
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while query request", str(e))
 
         if (response == None): return response
         if (len(response) > 0):
@@ -113,7 +113,7 @@ class ServiceRepositoryImpl:
             db.done()
             return True
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while commit request", str(e))
             return False
 
     @staticmethod
@@ -126,7 +126,7 @@ class ServiceRepositoryImpl:
             db.done()
             return True
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while commit request", str(e))
             return False
 
     @staticmethod
@@ -139,6 +139,6 @@ class ServiceRepositoryImpl:
             db.done()
             return True
         except Exception as e:
-            Logger.fail(str(e))
+            Logger.fail("An error occurred while commit request", str(e))
             return False
 
