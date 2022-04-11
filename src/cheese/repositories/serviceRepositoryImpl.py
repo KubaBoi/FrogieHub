@@ -84,7 +84,8 @@ class ServiceRepositoryImpl:
             Logger.fail("An error occurred while query request", str(e))
 
         if (response == None): return response
-        return int(response[0][0])
+        try: return int(response[0][0])
+        except: return -1
 
     @staticmethod
     def findByName(args):
@@ -102,6 +103,18 @@ class ServiceRepositoryImpl:
         if (len(response) > 0):
             return ServiceRepositoryImpl.toModel(response[0])
         else: return None
+
+    @staticmethod
+    def findNewId(args):
+
+        try:
+            db = Database()
+            db.commit(f"select max(id) from {ServiceRepositoryImpl.table};")
+            db.done()
+            return True
+        except Exception as e:
+            Logger.fail("An error occurred while commit request", str(e))
+            return False
 
     @staticmethod
     def save(args):
