@@ -1,59 +1,54 @@
 package cz.kuba.hub.services;
 
-import cz.kuba.hub.abstractions.services.ProxyHandlerInterface;
-import cz.kuba.hub.enums.ServiceType;
-import cz.kuba.hub.models.ServiceDTO;
-import jakarta.annotation.Nullable;
+import cz.kuba.hub.abstractions.services.ProxyDriverInterface;
+import cz.kuba.hub.enums.DriverType;
+import cz.kuba.hub.models.Service;
 import jakarta.el.MethodNotFoundException;
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.management.ServiceNotFoundException;
 import java.util.List;
 
-@Service
+@org.springframework.stereotype.Service
 public class SelectorService {
 
-    private final List<ServiceDTO> services;
-    private final List<ProxyHandlerInterface> proxyHandlers;
+    private static final Logger log = LoggerFactory.getLogger(SelectorService.class);
+    private final List<Service> services;
+    private final List<ProxyDriverInterface> proxyDrivers;
 
     public SelectorService() {
         services = List.of(
-                new ServiceDTO("wiokno", "Wiokno", "aa", 7111, ServiceType.HTTP)
+                new Service(
+                        "wiokno",
+                        "Wiokno",
+                        null,
+                        7970,
+                        DriverType.HTTP)
         );
 
-        proxyHandlers = List.of(
-                new HttpProxyHandler()
+        proxyDrivers = List.of(
+                new HttpProxyDriver()
         );
     }
 
-    public ServiceDTO findService(String serviceId, @Nullable String referer) throws ServiceNotFoundException {
+    public Service findService(String serviceId) throws ServiceNotFoundException {
         if (serviceId != null) {
-            for (ServiceDTO service : services) {
-                if (serviceId.equals(service.serviceId()))
+            for (Service service : services) {
+                if (serviceId.equals(service.getServiceId()))
                     return service;
             }
         }
-
-        // service from url was not found
-        // trying to use referer (for scripts, images, favicon,...)
-        if (referer != null) {
-            return findService(findServiceId(referer), null);
-        }
+        log.error("No service found with id {}", serviceId);
         throw new ServiceNotFoundException("Service not found");
     }
 
-    public ProxyHandlerInterface findProxyHandler(ServiceType serviceType) {
-        for (ProxyHandlerInterface proxyHandler : proxyHandlers) {
-            if (proxyHandler.getServiceType().equals(serviceType))
-                return proxyHandler;
+    public ProxyDriverInterface findProxyDriver(DriverType serviceType) {
+        for (ProxyDriverInterface proxyDriver : proxyDrivers) {
+            if (proxyDriver.getServiceType().equals(serviceType))
+                return proxyDriver;
         }
-        throw new MethodNotFoundException("Proxy handler not found");
-    }
-
-    private String findServiceId(String url) {
-        var parts = url.split("/");
-        if (parts.length >= 4)
-            return parts[3];
-        return null;
+        log.error("No proxy driver found for service type {}", serviceType);
+        throw new MethodNotFoundException("Proxy driver not found");
     }
 }

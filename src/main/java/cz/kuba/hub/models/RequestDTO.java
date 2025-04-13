@@ -8,6 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
  * @param service Called service
  * @param request Request data
  */
-public record RequestDTO(ServiceDTO service,
+public record RequestDTO(Service service,
                          HttpServletRequest request) {
 }

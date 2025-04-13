@@ -1,5 +1,5 @@
 package cz.kuba.hub.enums;
 
-public enum ServiceType {
+public enum DriverType {
     HTTP
 }
