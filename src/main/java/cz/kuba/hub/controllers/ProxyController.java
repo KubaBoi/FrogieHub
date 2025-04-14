@@ -37,7 +37,7 @@ public class ProxyController {
                     RequestMethod.TRACE
             }
     )
-    public ResponseEntity handler(@PathVariable String serviceId,
+    public ResponseEntity<byte[]> handler(@PathVariable String serviceId,
                                   HttpServletRequest request) throws ServiceNotFoundException, IOException {
         log.info("Forwarding {} - '{}' request",
                 request.getMethod(),

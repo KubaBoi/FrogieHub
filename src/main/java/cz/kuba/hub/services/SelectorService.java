@@ -3,7 +3,9 @@ package cz.kuba.hub.services;
 import cz.kuba.hub.abstractions.services.ProxyDriverInterface;
 import cz.kuba.hub.enums.DriverType;
 import cz.kuba.hub.models.Service;
+import cz.kuba.hub.repositories.ServiceRepository;
 import jakarta.el.MethodNotFoundException;
+import org.apache.naming.factory.webservices.ServiceProxy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +16,16 @@ import java.util.List;
 public class SelectorService {
 
     private static final Logger log = LoggerFactory.getLogger(SelectorService.class);
+    private final ServiceRepository serviceRepository;
+
     private final List<Service> services;
     private final List<ProxyDriverInterface> proxyDrivers;
 
-    public SelectorService() {
+    public SelectorService(ServiceRepository serviceRepository) {
+        this.serviceRepository = serviceRepository;
+
         services = List.of(
-                new Service(
+                new Service(0,
                         "wiokno",
                         "Wiokno",
                         null,
