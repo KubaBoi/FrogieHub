@@ -22,16 +22,6 @@ public class SelectorService {
     public SelectorService(ServiceRepository serviceRepository) {
 
         services = serviceRepository.findAll();
-
-//        services = List.of(
-//                new Service(UUID.randomUUID(),
-//                        "wiokno",
-//                        "Wiokno",
-//                        null,
-//                        7970,
-//                        DriverType.HTTP)
-//        );
-
         proxyDrivers = List.of(
                 new HttpProxyDriver()
         );
