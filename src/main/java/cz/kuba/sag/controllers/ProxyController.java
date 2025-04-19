@@ -13,7 +13,7 @@ import javax.management.ServiceNotFoundException;
 import java.io.IOException;
 
 @Controller
-@RequestMapping("/{serviceId}/**")
+@RequestMapping("/{servicePrefix}/**")
 public class ProxyController {
 
     private static final Logger log = LoggerFactory.getLogger(ProxyController.class);
@@ -37,13 +37,13 @@ public class ProxyController {
                     RequestMethod.TRACE
             }
     )
-    public ResponseEntity<byte[]> handler(@PathVariable String serviceId,
+    public ResponseEntity<byte[]> handler(@PathVariable String servicePrefix,
                                   HttpServletRequest request) throws ServiceNotFoundException, IOException {
         log.info("Forwarding {} - '{}' request",
                 request.getMethod(),
                 request.getRequestURI());
 
-        var service = selectorService.findService(serviceId);
+        var service = selectorService.findService(servicePrefix);
         var driver = selectorService.findProxyDriver(service.getDriverType());
 
         return driver.forward(service, request);
