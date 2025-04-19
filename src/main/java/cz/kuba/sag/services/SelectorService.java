@@ -22,6 +22,7 @@ public class SelectorService {
     public SelectorService(ServiceRepository serviceRepository) {
 
         services = serviceRepository.findAll();
+
         proxyDrivers = List.of(
                 new HttpProxyDriver()
         );
