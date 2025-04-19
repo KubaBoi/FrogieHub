@@ -10,7 +10,7 @@ import lombok.Setter;
 import java.util.UUID;
 
 /**
- * Object representing service to reroute requests.
+ * Object representing SAS service to reroute requests.
  */
 @Entity
 @Table(name = "services")
@@ -18,7 +18,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Service {
+public class SasService {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

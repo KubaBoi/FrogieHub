@@ -2,7 +2,7 @@ package cz.kuba.sag.services;
 
 import cz.kuba.sag.abstractions.services.ProxyDriverInterface;
 import cz.kuba.sag.enums.DriverType;
-import cz.kuba.sag.models.Service;
+import cz.kuba.sag.models.SasService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,7 @@ public class HttpProxyDriver implements ProxyDriverInterface {
     }
 
     @Override
-    public ResponseEntity<byte[]> forward(Service service, HttpServletRequest request) throws IOException {
+    public ResponseEntity<byte[]> forward(SasService service, HttpServletRequest request) throws IOException {
         var url = createUrl(service, request.getRequestURI(), request.getQueryString());
         HttpMethod method = HttpMethod.valueOf(request.getMethod());
 
@@ -58,7 +58,7 @@ public class HttpProxyDriver implements ProxyDriverInterface {
                 .body(responseEntity.getBody());
     }
 
-    private String createUrl(Service service, String path, String query) throws UnsupportedEncodingException {
+    private String createUrl(SasService service, String path, String query) throws UnsupportedEncodingException {
         path = path.replace(service.getPrefix(), "");
 
         StringBuilder builder = new StringBuilder();

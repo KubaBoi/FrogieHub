@@ -1,7 +1,7 @@
 package cz.kuba.sag.abstractions.services;
 
 import cz.kuba.sag.enums.DriverType;
-import cz.kuba.sag.models.Service;
+import cz.kuba.sag.models.SasService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
@@ -23,5 +23,5 @@ public interface ProxyDriverInterface {
      * @param service
      * @param request
      */
-    ResponseEntity<byte[]> forward(Service service, HttpServletRequest request) throws IOException;
+    ResponseEntity<byte[]> forward(SasService service, HttpServletRequest request) throws IOException;
 }

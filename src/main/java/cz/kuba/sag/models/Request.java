@@ -8,6 +8,6 @@ import jakarta.servlet.http.HttpServletRequest;
  * @param service Called service
  * @param request Request data
  */
-public record Request(Service service,
+public record Request(SasService service,
                       HttpServletRequest request) {
 }
