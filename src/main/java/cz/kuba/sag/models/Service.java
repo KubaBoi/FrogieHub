@@ -1,14 +1,13 @@
 package cz.kuba.sag.models;
 
 import cz.kuba.sag.enums.DriverType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.UUID;
 
 /**
  * Object representing service to reroute requests.
@@ -22,13 +21,14 @@ import lombok.Setter;
 public class Service {
 
     @Id
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     /**
      * Unique id od service in the start of url
      */
     @Column(nullable = false, unique = true)
-    private String serviceId;
+    private String prefix;
 
     /**
      * Display name
@@ -51,6 +51,7 @@ public class Service {
     /**
      * Type of service's interface
      */
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private DriverType driverType;
 }

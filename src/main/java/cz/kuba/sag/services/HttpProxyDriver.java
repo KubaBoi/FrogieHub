@@ -59,7 +59,7 @@ public class HttpProxyDriver implements ProxyDriverInterface {
     }
 
     private String createUrl(Service service, String path, String query) throws UnsupportedEncodingException {
-        path = path.replace(service.getServiceId(), "");
+        path = path.replace(service.getPrefix(), "");
 
         StringBuilder builder = new StringBuilder();
         builder.append("http://localhost:")

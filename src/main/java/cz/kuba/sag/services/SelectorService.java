@@ -15,22 +15,22 @@ import java.util.List;
 public class SelectorService {
 
     private static final Logger log = LoggerFactory.getLogger(SelectorService.class);
-    private final ServiceRepository serviceRepository;
 
     private final List<Service> services;
     private final List<ProxyDriverInterface> proxyDrivers;
 
     public SelectorService(ServiceRepository serviceRepository) {
-        this.serviceRepository = serviceRepository;
 
-        services = List.of(
-                new Service(0,
-                        "wiokno",
-                        "Wiokno",
-                        null,
-                        7970,
-                        DriverType.HTTP)
-        );
+        services = serviceRepository.findAll();
+
+//        services = List.of(
+//                new Service(UUID.randomUUID(),
+//                        "wiokno",
+//                        "Wiokno",
+//                        null,
+//                        7970,
+//                        DriverType.HTTP)
+//        );
 
         proxyDrivers = List.of(
                 new HttpProxyDriver()
@@ -40,7 +40,7 @@ public class SelectorService {
     public Service findService(String serviceId) throws ServiceNotFoundException {
         if (serviceId != null) {
             for (Service service : services) {
-                if (serviceId.equals(service.getServiceId()))
+                if (serviceId.equals(service.getPrefix()))
                     return service;
             }
         }
