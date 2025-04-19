@@ -1,6 +1,7 @@
 package cz.kuba.sag.services;
 
 import cz.kuba.sag.abstractions.services.ProxyDriverInterface;
+import cz.kuba.sag.drivers.HttpProxyDriver;
 import cz.kuba.sag.enums.DriverType;
 import cz.kuba.sag.models.SasService;
 import cz.kuba.sag.repositories.ServiceRepository;

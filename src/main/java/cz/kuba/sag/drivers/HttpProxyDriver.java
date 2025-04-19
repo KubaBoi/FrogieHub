@@ -1,4 +1,4 @@
-package cz.kuba.sag.services;
+package cz.kuba.sag.drivers;
 
 import cz.kuba.sag.abstractions.services.ProxyDriverInterface;
 import cz.kuba.sag.enums.DriverType;
