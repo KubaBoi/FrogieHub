@@ -1,4 +1,4 @@
-package cz.kuba.hub.controllers;
+package cz.kuba.sag.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

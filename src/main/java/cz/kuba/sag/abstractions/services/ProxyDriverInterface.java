@@ -1,7 +1,7 @@
-package cz.kuba.hub.abstractions.services;
+package cz.kuba.sag.abstractions.services;
 
-import cz.kuba.hub.enums.DriverType;
-import cz.kuba.hub.models.Service;
+import cz.kuba.sag.enums.DriverType;
+import cz.kuba.sag.models.Service;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 

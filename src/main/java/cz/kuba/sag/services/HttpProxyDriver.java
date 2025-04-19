@@ -1,8 +1,8 @@
-package cz.kuba.hub.services;
+package cz.kuba.sag.services;
 
-import cz.kuba.hub.abstractions.services.ProxyDriverInterface;
-import cz.kuba.hub.enums.DriverType;
-import cz.kuba.hub.models.Service;
+import cz.kuba.sag.abstractions.services.ProxyDriverInterface;
+import cz.kuba.sag.enums.DriverType;
+import cz.kuba.sag.models.Service;
 import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

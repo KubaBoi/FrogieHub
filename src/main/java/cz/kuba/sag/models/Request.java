@@ -1,4 +1,4 @@
-package cz.kuba.hub.models;
+package cz.kuba.sag.models;
 
 import jakarta.servlet.http.HttpServletRequest;
 

@@ -1,6 +1,6 @@
-package cz.kuba.hub.models;
+package cz.kuba.sag.models;
 
-import cz.kuba.hub.enums.DriverType;
+import cz.kuba.sag.enums.DriverType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

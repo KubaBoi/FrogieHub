@@ -1,10 +1,10 @@
-package cz.kuba.hub;
+package cz.kuba.sag;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class HubApplicationTests {
+class SagApplicationTests {
 
     @Test
     void contextLoads() {

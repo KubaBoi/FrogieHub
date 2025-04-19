@@ -1,4 +1,4 @@
-package cz.kuba.hub;
+package cz.kuba.sag;
 
 public class Constants {
 

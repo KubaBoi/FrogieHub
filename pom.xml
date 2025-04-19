@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>cz.kuba</groupId>
-    <artifactId>hub</artifactId>
+    <artifactId>sag</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>hub</name>
-    <description>hub</description>
+    <name>sag</name>
+    <description>Secure API Gateway</description>
     <url/>
     <licenses>
         <license/>
