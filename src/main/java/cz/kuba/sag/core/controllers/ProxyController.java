@@ -1,6 +1,6 @@
-package cz.kuba.sag.controllers;
+package cz.kuba.sag.core.controllers;
 
-import cz.kuba.sag.services.SelectorService;
+import cz.kuba.sag.core.services.SelectorService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,6 @@
-package cz.kuba.sag.repositories;
+package cz.kuba.sag.data.repositories;
 
-import cz.kuba.sag.models.Account;
+import cz.kuba.sag.data.models.Account;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

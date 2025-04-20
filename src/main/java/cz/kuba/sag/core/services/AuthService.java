@@ -1,7 +1,7 @@
-package cz.kuba.sag.services;
+package cz.kuba.sag.core.services;
 
-import cz.kuba.sag.models.Account;
-import cz.kuba.sag.repositories.AccountRepository;
+import cz.kuba.sag.data.models.Account;
+import cz.kuba.sag.data.repositories.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,6 @@ import javax.security.auth.login.AccountNotFoundException;
 public class AuthService {
 
     private final PasswordEncoder passwordEncoder;
-
     private final AccountRepository accountRepository;
 
     public AuthService(PasswordEncoder passwordEncoder,
@@ -24,6 +23,7 @@ public class AuthService {
 
     /**
      * Creates account with authentication via password
+     *
      * @param username User's login name
      * @param password Raw password
      * @return New account
@@ -39,6 +39,7 @@ public class AuthService {
 
     /**
      * Authenticate account via password
+     *
      * @param username User's login name
      * @param password Raw password
      * @return Authenticated account
@@ -54,5 +55,9 @@ public class AuthService {
             throw new AccountNotFoundException("Wrong password");
         }
         return account;
+    }
+
+    public String createJwt(Account account) {
+
     }
 }

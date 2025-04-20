@@ -1,6 +1,6 @@
-package cz.kuba.sag.models;
+package cz.kuba.sag.data.models;
 
-import cz.kuba.sag.enums.DriverType;
+import cz.kuba.sag.data.enums.DriverType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

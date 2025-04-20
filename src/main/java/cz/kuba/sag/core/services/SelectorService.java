@@ -1,10 +1,10 @@
-package cz.kuba.sag.services;
+package cz.kuba.sag.core.services;
 
-import cz.kuba.sag.abstractions.services.ProxyDriverInterface;
+import cz.kuba.sag.abstractions.ProxyDriverInterface;
 import cz.kuba.sag.drivers.HttpProxyDriver;
-import cz.kuba.sag.enums.DriverType;
-import cz.kuba.sag.models.SasService;
-import cz.kuba.sag.repositories.ServiceRepository;
+import cz.kuba.sag.data.enums.DriverType;
+import cz.kuba.sag.data.models.SasService;
+import cz.kuba.sag.data.repositories.ServiceRepository;
 import jakarta.el.MethodNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

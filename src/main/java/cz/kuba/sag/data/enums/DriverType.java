@@ -1,4 +1,4 @@
-package cz.kuba.sag.enums;
+package cz.kuba.sag.data.enums;
 
 public enum DriverType {
     HTTP
