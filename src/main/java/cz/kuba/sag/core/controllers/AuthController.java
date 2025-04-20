@@ -3,9 +3,8 @@ package cz.kuba.sag.core.controllers;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import cz.kuba.sag.core.services.AuthService;
 import cz.kuba.sag.data.models.dtos.AccountDTO;
-import cz.kuba.sag.data.models.dtos.CredentialsDTO;
+import cz.kuba.sag.data.models.dtos.LoginRequestDTO;
 import cz.kuba.sag.data.models.dtos.LoginResponseDTO;
-import cz.kuba.sag.utils.Jwt;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,7 @@ public class AuthController {
 
     @PostMapping
     @RequestMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody CredentialsDTO credentials) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody LoginRequestDTO credentials) {
         LoginResponseDTO account;
         try {
             account = authService.login(credentials);
@@ -46,7 +45,7 @@ public class AuthController {
 
     @PutMapping
     @RequestMapping("/register")
-    public ResponseEntity<AccountDTO> register(@RequestBody CredentialsDTO credentials) {
+    public ResponseEntity<AccountDTO> register(@RequestBody LoginRequestDTO credentials) {
         AccountDTO account = authService.createUser(credentials);
         return ResponseEntity.status(HttpStatus.CREATED).body(account);
     }

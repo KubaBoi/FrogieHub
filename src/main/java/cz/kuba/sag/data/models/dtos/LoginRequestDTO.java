@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CredentialsDTO {
+public class LoginRequestDTO {
 
     @JsonProperty(required = true)
     private String username;

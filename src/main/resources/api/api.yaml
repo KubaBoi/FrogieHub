@@ -1,0 +1,71 @@
+openapi: 3.1.0
+info:
+  title: Secure API Gateway Api
+  version: 0.0.1
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+tags:
+  - name: Auth
+    description: Login and registration
+  - name: Services
+    description: Management of SAS services
+  - name: Proxy
+    description: Proxy endpoint for SAS
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Auth
+      summary: User login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Login success
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/LoginResponse'
+        '401':
+          description: User is not authenticated
+  /auth/register:
+    put:
+      tags:
+        - Auth
+      summary: Create new account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/AccountDTO'
+
+  /system/services:
+    get:
+      tags:
+        - Services
+      summary: List all services
+      responses:
+        '200':
+          description:

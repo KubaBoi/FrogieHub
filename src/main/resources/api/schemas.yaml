@@ -1,0 +1,70 @@
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - userName
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+        account:
+          $ref: '#/components/schemas/AccountDTO'
+
+    RegisterRequest:
+      type: object
+      required:
+        - userName
+      properties:
+        userName:
+          type: string
+        password:
+          type: string
+        publicKey:
+          type: string
+          format: byte
+
+    AccountDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        userName:
+          type: string
+
+    ServiceDTO:
+      type: object
+      required:
+        - id
+        - prefix
+        - name
+        - port
+        - driverType
+      properties:
+        id:
+          type: string
+          format: uuid
+        prefix:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        port:
+          type: integer
+        driverType:
+          $ref: '#/components/schemas/DriverType'
+
+    DriverType:
+      type: string
+      enum:
+        - HTTP

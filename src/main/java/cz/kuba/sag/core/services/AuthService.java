@@ -5,7 +5,7 @@ import cz.kuba.sag.data.models.dtos.LoginResponseDTO;
 import cz.kuba.sag.data.models.entities.SasAccount;
 import cz.kuba.sag.data.mappers.AccountMapper;
 import cz.kuba.sag.data.models.dtos.AccountDTO;
-import cz.kuba.sag.data.models.dtos.CredentialsDTO;
+import cz.kuba.sag.data.models.dtos.LoginRequestDTO;
 import cz.kuba.sag.data.repositories.AccountRepository;
 import cz.kuba.sag.utils.Jwt;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class AuthService {
      * @param credentials User's credentials
      * @return New account
      */
-    public AccountDTO createUser(CredentialsDTO credentials) {
+    public AccountDTO createUser(LoginRequestDTO credentials) {
         log.info("Creating user {}", credentials.getUsername());
         SasAccount account = new SasAccount();
         account.setUserName(credentials.getUsername());
@@ -51,7 +51,7 @@ public class AuthService {
      * @param credentials User's credentials
      * @return Authenticated account
      */
-    public LoginResponseDTO login(CredentialsDTO credentials) throws AccountNotFoundException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
+    public LoginResponseDTO login(LoginRequestDTO credentials) throws AccountNotFoundException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
         SasAccount account = accountRepository.findByUserName(credentials.getUsername());
         if (account == null) {
             log.error("Account not found");
