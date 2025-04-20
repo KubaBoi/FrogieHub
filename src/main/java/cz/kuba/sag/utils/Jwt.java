@@ -44,7 +44,7 @@ public class Jwt {
         String signature = CryptoUtils.hmac(
                 "HmacSHA256",
                 joined,
-                "123456789");
+                key);
 
         return joined + "." + signature;
     }
