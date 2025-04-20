@@ -1,6 +1,6 @@
 package cz.kuba.sag.data.repositories;
 
-import cz.kuba.sag.data.models.SasService;
+import cz.kuba.sag.data.models.entities.SasService;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;

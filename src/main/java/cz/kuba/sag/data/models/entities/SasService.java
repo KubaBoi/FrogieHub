@@ -1,4 +1,4 @@
-package cz.kuba.sag.data.models;
+package cz.kuba.sag.data.models.entities;
 
 import cz.kuba.sag.data.enums.DriverType;
 import jakarta.persistence.*;
@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.UUID;
 
@@ -16,6 +17,7 @@ import java.util.UUID;
 @Table(name = "services")
 @Getter
 @Setter
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
 public class SasService {

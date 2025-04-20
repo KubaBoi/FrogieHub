@@ -1,10 +1,11 @@
-package cz.kuba.sag.data.models;
+package cz.kuba.sag.data.models.entities;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.UUID;
 
@@ -12,9 +13,10 @@ import java.util.UUID;
 @Table(name = "accounts")
 @Getter
 @Setter
+@Accessors(chain = true)
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
+public class SasAccount {
 
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

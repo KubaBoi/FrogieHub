@@ -1,5 +1,6 @@
 package cz.kuba.sag.data.models;
 
+import cz.kuba.sag.data.models.entities.SasService;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
