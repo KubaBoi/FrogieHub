@@ -1,7 +1,5 @@
 package cz.kuba.sag.utils;
 
-import cz.kuba.sag.data.models.Account;
-
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
@@ -14,13 +12,7 @@ public class CryptoUtils {
     private static final String KEY = "123456789";
     private static final String HEADER = "{\"alg\": \"HS256\",\"typ\": \"JWT\"}";
 
-    public static String generate(Account account) {
-
-
-        String signature = hmac("HmacSHA256", "", "");
-    }
-
-    private static String hmac(String algorithm, String data, String secret) throws NoSuchAlgorithmException, InvalidKeyException {
+    public static String hmac(String algorithm, String data, String secret) throws NoSuchAlgorithmException, InvalidKeyException {
         SecretKeySpec signingKey = new SecretKeySpec(secret.getBytes(), algorithm);
         Mac mac = Mac.getInstance(algorithm);
         mac.init(signingKey);
