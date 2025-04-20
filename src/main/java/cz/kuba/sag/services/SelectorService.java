@@ -6,17 +6,16 @@ import cz.kuba.sag.enums.DriverType;
 import cz.kuba.sag.models.SasService;
 import cz.kuba.sag.repositories.ServiceRepository;
 import jakarta.el.MethodNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.management.ServiceNotFoundException;
 import java.util.List;
 
+@Slf4j
 @Service
 public class SelectorService {
 
-    private static final Logger log = LoggerFactory.getLogger(SelectorService.class);
     private final ServiceRepository serviceRepository;
 
     private final List<ProxyDriverInterface> proxyDrivers;
@@ -24,9 +23,7 @@ public class SelectorService {
     public SelectorService(ServiceRepository serviceRepository) {
         this.serviceRepository = serviceRepository;
 
-        proxyDrivers = List.of(
-                new HttpProxyDriver()
-        );
+        proxyDrivers = List.of(new HttpProxyDriver());
     }
 
     public SasService findService(String prefix) throws ServiceNotFoundException {
@@ -40,8 +37,7 @@ public class SelectorService {
 
     public ProxyDriverInterface findProxyDriver(DriverType serviceType) {
         for (ProxyDriverInterface proxyDriver : proxyDrivers) {
-            if (proxyDriver.getServiceType().equals(serviceType))
-                return proxyDriver;
+            if (proxyDriver.getServiceType().equals(serviceType)) return proxyDriver;
         }
         log.error("No proxy driver found for service type {}", serviceType);
         throw new MethodNotFoundException("Proxy driver not found");

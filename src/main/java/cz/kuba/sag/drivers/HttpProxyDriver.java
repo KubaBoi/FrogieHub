@@ -4,6 +4,7 @@ import cz.kuba.sag.abstractions.services.ProxyDriverInterface;
 import cz.kuba.sag.enums.DriverType;
 import cz.kuba.sag.models.SasService;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpEntity;
@@ -21,9 +22,9 @@ import java.util.Collections;
 /**
  * Proxy handler for HTTP services.
  */
+@Slf4j
 public class HttpProxyDriver implements ProxyDriverInterface {
 
-    private static final Logger log = LoggerFactory.getLogger(HttpProxyDriver.class);
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
