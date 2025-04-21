@@ -1,0 +1,12 @@
+components:
+  schemas:
+    DriverType:
+      type: string
+      enum:
+        - HTTP
+
+    Roles:
+      type: string
+      enum:
+        - Admin
+        - User

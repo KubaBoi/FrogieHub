@@ -1,0 +1,28 @@
+components:
+  schemas:
+    LoginRequest:
+      type: object
+      required:
+        - userName
+      properties:
+        username:
+          type: string
+      oneOf:
+        - required: [ password ]
+          properties:
+            password:
+              type: string
+        - required: [ publicKey ]
+          properties:
+            publicKey:
+              type: string
+              format: byte
+
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          format: JWT
+        account:
+          $ref: '../components/accounts.yaml#/components/schemas/AccountDTO'

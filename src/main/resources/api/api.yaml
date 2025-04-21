@@ -4,7 +4,7 @@ info:
   version: 0.0.1
 
 security:
-  - bearerAuth: []
+  - bearerAuth: [ ]
 
 components:
   securitySchemes:
@@ -12,10 +12,18 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+  schemas:
+    ErrorDTO:
+      type: object
+      properties:
+        message:
+          type: string
 
 tags:
   - name: Auth
-    description: Login and registration for SAS
+    description: Login for SAS
+  - name: Accounts
+    description: Management of SAS accounts
   - name: Services
     description: Management of SAS services
   - name: Proxy
@@ -32,50 +40,149 @@ paths:
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/components/schemas/LoginRequest'
+              $ref: './components/login.yaml#/components/schemas/LoginRequest'
       responses:
         '200':
           description: Login success
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/LoginResponse'
+                $ref: './components/login.yaml#/components/schemas/LoginResponse'
         '400':
           description: Given login data are wrong or incomplete
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Account is not authenticated
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
-  /auth/register:
+                $ref: '#/components/schemas/ErrorDTO'
+
+  /accounts:
+    get:
+      tags:
+        - Accounts
+      summary: List all accounts
+      responses:
+        '200':
+          description: List of all accounts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/accounts.yaml#/components/schemas/AccountDTO'
+        '401':
+          description: Account is not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
     post:
       tags:
-        - Auth
-      summary: Create new SAS account
+        - Accounts
+      summary: Create new account
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: './accountSchemas.yaml#/components/schemas/CreateAccountDTO'
+              $ref: './components/accounts.yaml#/components/schemas/CreateAccountDTO'
       responses:
         '201':
           description: Account created
           content:
             application/json:
               schema:
-                $ref: './accountSchemas.yaml#/components/schemas/AccountDTO'
+                $ref: './components/accounts.yaml#/components/schemas/AccountDTO'
         '400':
           description: Given account data are wrong or incomplete
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
+
+  /accounts/{accountId}:
+    get:
+      tags:
+        - Accounts
+      summary: Detail of account
+      responses:
+        '200':
+          description: Account found
+          content:
+            application/json:
+              schema:
+                $ref: './components/accounts.yaml#/components/schemas/AccountDTO'
+        '401':
+          description: Client is not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Account was not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    patch:
+      tags:
+        - Accounts
+      summary: Update account
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/accounts.yaml#/components/schemas/UpdateAccountDTO'
+      responses:
+        '200':
+          description: Account updated
+          content:
+            application/json:
+              schema:
+                $ref: './components/accounts.yaml#/components/schemas/AccountDTO'
+        '400':
+          description: Given account data are wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Calling account is not admin nor owner of altered account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      tags:
+        - Accounts
+      summary: Delete account
+      responses:
+        '204':
+          description: Account deleted
+        '401':
+          description: Calling account is not admin nor owner of deleted account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
 
   /system/services:
     get:
@@ -88,44 +195,132 @@ paths:
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ServiceDTO'
+                type: array
+                items:
+                  $ref: './components/services.yaml#/components/schemas/ServiceDTO'
         '401':
           description: Account is not admin
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
     post:
       tags:
         - Services
       summary: Add new service
       requestBody:
+        required: true
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/components/schemas/CreateServiceDTO'
+              $ref: './components/services.yaml#/components/schemas/CreateServiceDTO'
       responses:
         '201':
           description: Service created
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ServiceDTO'
+                $ref: './components/services.yaml#/components/schemas/ServiceDTO'
         '400':
           description: Given service data are wrong or incomplete
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
         '401':
           description: Account is not admin
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
         '409':
           description: Service already with the prefix already exists
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+                $ref: '#/components/schemas/ErrorDTO'
+
+  /system/services/{serviceId}:
+    get:
+      tags:
+        - Services
+      summary: Detail of one service
+      responses:
+        '200':
+          description: Service found
+          content:
+            application/json:
+              schema:
+                $ref: './components/services.yaml#/components/schemas/ServiceDTO'
+        '400':
+          description: Given service data are wrong or incomplete
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Account is not admin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    patch:
+      tags:
+        - Services
+      summary: Update service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/services.yaml#/components/schemas/UpdateServiceDTO'
+      responses:
+        '200':
+          description: Service updated
+          content:
+            application/json:
+              schema:
+                $ref: './components/services.yaml#/components/schemas/ServiceDTO'
+        '400':
+          description: Given service data are wrong
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '401':
+          description: Account is not admin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      tags:
+        - Services
+      summary: Delete service
+      responses:
+        '204':
+          description: Service deleted
+        '401':
+          description: Account is not admin
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
