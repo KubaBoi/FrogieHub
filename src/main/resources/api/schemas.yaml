@@ -16,39 +16,34 @@ components:
       properties:
         token:
           type: string
+          format: JWT
         account:
-          $ref: '#/components/schemas/AccountDTO'
+          $ref: './accountSchemas.yaml#/components/schemas/AccountDTO'
 
-    RegisterRequest:
-      type: object
-      required:
-        - userName
-      properties:
-        userName:
-          type: string
-        password:
-          type: string
-        publicKey:
-          type: string
-          format: byte
-
-    AccountDTO:
+    CreateServiceDTO:
       type: object
       properties:
-        id:
+        prefix:
           type: string
-          format: uuid
-        userName:
+        name:
           type: string
+        description:
+          type: string
+        port:
+          type: integer
+        driverType:
+          $ref: '#/components/schemas/DriverType'
+        run_command:
+          description: Command which starts the service
+          type: string
+          format: bash
+        source:
+          description: URL to git repository
+          type: string
+          format: url
 
     ServiceDTO:
       type: object
-      required:
-        - id
-        - prefix
-        - name
-        - port
-        - driverType
       properties:
         id:
           type: string
@@ -63,6 +58,17 @@ components:
           type: integer
         driverType:
           $ref: '#/components/schemas/DriverType'
+        run_command:
+          type: string
+          format: bash
+        isRunning:
+          type: boolean
+
+    ErrorDTO:
+      type: object
+      properties:
+        message:
+          type: string
 
     DriverType:
       type: string

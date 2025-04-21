@@ -1,0 +1,41 @@
+components:
+  schemas:
+    BaseAccountDTO:
+      type: object
+      properties:
+        userName:
+          type: string
+        email:
+          type: string
+          format: email
+
+    CreateAccountDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseAccountDTO'
+        - type: object
+          required:
+            - userName
+            - email
+        - anyOf:
+            - required: [ password ]
+              properties:
+                password:
+                  type: string
+            - required: [ publicKey ]
+              properties:
+                publicKey:
+                  type: string
+                  format: byte
+
+    UpdateAccountDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseAccountDTO'
+
+    AccountDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseAccountDTO'
+        - type: object
+          properties:
+            id:
+              type: string
+              format: uuid

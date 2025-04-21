@@ -15,7 +15,7 @@ components:
 
 tags:
   - name: Auth
-    description: Login and registration
+    description: Login and registration for SAS
   - name: Services
     description: Management of SAS services
   - name: Proxy
@@ -26,7 +26,7 @@ paths:
     post:
       tags:
         - Auth
-      summary: User login
+      summary: Account login
       requestBody:
         required: true
         content:
@@ -40,26 +40,42 @@ paths:
             application/json:
               schema:
                 $ref: './schemas.yaml#/components/schemas/LoginResponse'
+        '400':
+          description: Given login data are wrong or incomplete
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
         '401':
-          description: User is not authenticated
+          description: Account is not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
   /auth/register:
-    put:
+    post:
       tags:
         - Auth
-      summary: Create new account
+      summary: Create new SAS account
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: './schemas.yaml#/components/schemas/RegisterRequest'
+              $ref: './accountSchemas.yaml#/components/schemas/CreateAccountDTO'
       responses:
         '201':
           description: Account created
           content:
             application/json:
               schema:
-                $ref: './schemas.yaml#/components/schemas/AccountDTO'
+                $ref: './accountSchemas.yaml#/components/schemas/AccountDTO'
+        '400':
+          description: Given account data are wrong or incomplete
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
 
   /system/services:
     get:
@@ -68,4 +84,48 @@ paths:
       summary: List all services
       responses:
         '200':
-          description:
+          description: List of all services
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ServiceDTO'
+        '401':
+          description: Account is not admin
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+    post:
+      tags:
+        - Services
+      summary: Add new service
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: './schemas.yaml#/components/schemas/CreateServiceDTO'
+      responses:
+        '201':
+          description: Service created
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ServiceDTO'
+        '400':
+          description: Given service data are wrong or incomplete
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+        '401':
+          description: Account is not admin
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
+        '409':
+          description: Service already with the prefix already exists
+          content:
+            application/json:
+              schema:
+                $ref: './schemas.yaml#/components/schemas/ErrorDTO'
