@@ -14,7 +14,8 @@ components:
           format: uuid
         data:
           type: string
-          description: Some metadata of resource
+          format: byte
+          description: Resource data
 
     CreateResourceDTO:
       allOf:
