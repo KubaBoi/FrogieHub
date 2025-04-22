@@ -28,7 +28,7 @@ tags:
   - name: Auth
     description: Login for SAS
   - name: Public
-    description: Endpoint with limited data
+    description: Endpoints with limited data
   - name: Accounts
     description: Management of SAS accounts
   - name: Services

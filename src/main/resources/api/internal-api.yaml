@@ -2,7 +2,7 @@ openapi: 3.1.0
 info:
   title: SAG internal API
   version: 0.0.1
-  
+
 components:
   schemas:
     ErrorDTO:
@@ -13,27 +13,59 @@ components:
         message:
           type: string
 
+tags:
+  - name: Resources
+    description: Endpoints for resources
+  - name: Accesses
+    description: Management of resource accesses
+
 paths:
-  /internal/resources:
+  
+  # Resources
+  
+  /internal/{serviceId}/resources:
     post:
+      tags:
+        - Resources
       summary: Create new resource
+      parameters:
+        - name: serviceId
+          description: Id of calling service
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
           application/json:
             schema:
               $ref: './components/internal/resources.yaml#/components/schemas/CreateResourceDTO'
-      responses: 
+      responses:
         '201':
           description: Resource created
-          content: 
+          content:
             application/json:
               schema:
                 $ref: './components/internal/resources.yaml#/components/schemas/ResourceDTO'
   
-  /internal/resources/{resourceId}:
+  /internal/{serviceId}/resources/{resourceId}:
     get:
+      tags:
+        - Resources
       summary: Detail of resource
+      parameters:
+        - name: serviceId
+          description: Id of calling service
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         '200':
           description: Detail of resource
@@ -43,12 +75,26 @@ paths:
                 $ref: './components/internal/resources.yaml#/components/schemas/ResourceDTO'
         '404':
           description: Resource not found
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
     patch:
+      tags:
+        - Resources
       summary: Update resource
+      parameters:
+        - name: serviceId
+          description: Id of calling service
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -69,8 +115,22 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
     delete:
+      tags:
+        - Resources
       summary: Delete resource and it's accesses
-      responses: 
+      parameters:
+        - name: serviceId
+          description: Id of calling service
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: resourceId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
         '204':
           description: Resource and it's accesses deleted
         '404':
@@ -80,9 +140,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
 
-  /internal/access:
+  # Accesses
+
+  /internal/{serviceId}/access:
     put:
+      tags:
+        - Accesses
       summary: Set resource access (recursively)
+      parameters:
+        - name: serviceId
+          description: Id of calling service
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:
@@ -103,9 +174,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
 
-  /internal/access/{accountId}:
+  /internal/{serviceId}/access/{accountId}:
     post:
+      tags:
+        - Accesses
       summary: Decides if account can read resources
+      parameters:
+        - name: serviceId
+          description: Id of calling service
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
       requestBody:
         required: true
         content:

@@ -13,6 +13,9 @@ components:
           type: boolean
         write:
           type: boolean
+        manage:
+          type: boolean
+          description: Flag indicating that account can set resource access
 
     SetResourceAccessDTO:
       type: object

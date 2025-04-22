@@ -12,6 +12,9 @@ components:
         accountId:
           type: string
           format: uuid
+        data:
+          type: string
+          description: Some metadata of resource
 
     CreateResourceDTO:
       allOf:
