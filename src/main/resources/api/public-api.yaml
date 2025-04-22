@@ -1,17 +1,22 @@
 openapi: 3.1.0
 info:
-  title: Secure API Gateway Api
+  title: SAG API
   version: 0.0.1
 
 security:
-  - bearerAuth: [ ]
+  - oauth2jwt: [ ]
 
 components:
   securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
+    oauth2jwt:
+      type: oauth2
+      flows:
+        password:
+          tokenUrl: /auth/login
+          scopes:
+            admin: Admin role access
+            user: Regular user access
+            user:owner: Owner of the resource
   schemas:
     ErrorDTO:
       type: object
@@ -22,6 +27,8 @@ components:
 tags:
   - name: Auth
     description: Login for SAS
+  - name: Public
+    description: Endpoint with limited data
   - name: Accounts
     description: Management of SAS accounts
   - name: Services
@@ -30,6 +37,9 @@ tags:
     description: Proxy endpoint for SAS
 
 paths:
+
+  # Auth
+
   /auth/login:
     post:
       tags:
@@ -61,11 +71,95 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
 
+  # Public
+
+  /accounts/public:
+    get:
+      tags:
+        - Public
+      summary: List all accounts with public data
+      description: Accessible to all authenticated
+      security:
+        - oauth2jwt: [ admin, user ]
+      responses:
+        '200':
+          description: List of all accounts with public data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/accounts.yaml#/components/schemas/PublicAccountDTO'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+  
+  /accounts/{accountId}/public:
+    get:
+      tags:
+        - Public
+      summary: Detail of account with public data
+      description: Accessible only to all authenticated
+      security:
+        - oauth2jwt: [ admin, user ]
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Id of account
+      responses:
+        '200':
+          description: Account found
+          content:
+            application/json:
+              schema:
+                $ref: './components/accounts.yaml#/components/schemas/PublicAccountDTO'
+        '401':
+          description: Not authenticated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+
+  /services/public:
+    get:
+      tags:
+        - Public
+      summary: List all services with public data
+      description: Accessible to all authenticated
+      security:
+        - oauth2jwt: [ admin, user ]
+      responses:
+        '200':
+          description: List of all service with public data
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/services.yaml#/components/schemas/PublicServiceDTO'
+
+  # Accounts
+
   /accounts:
     get:
       tags:
         - Accounts
       summary: List all accounts
+      description: Accessible only to `admin`
+      security:
+        - oauth2jwt: [ admin ]
       responses:
         '200':
           description: List of all accounts
@@ -75,8 +169,8 @@ paths:
                 type: array
                 items:
                   $ref: './components/accounts.yaml#/components/schemas/AccountDTO'
-        '401':
-          description: Account is not authenticated
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
@@ -110,6 +204,16 @@ paths:
       tags:
         - Accounts
       summary: Detail of account
+      description: Accessible only to `admin`, `user:owner`
+      security:
+        - oauth2jwt: [ admin, user:owner ]
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Id of account
       responses:
         '200':
           description: Account found
@@ -117,14 +221,14 @@ paths:
             application/json:
               schema:
                 $ref: './components/accounts.yaml#/components/schemas/AccountDTO'
-        '401':
-          description: Client is not authenticated
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
-          description: Account was not found
+          description: Account not found
           content:
             application/json:
               schema:
@@ -133,6 +237,16 @@ paths:
       tags:
         - Accounts
       summary: Update account
+      description: Accessible only to `admin`, `user:owner`
+      security:
+        - oauth2jwt: [ admin, user:owner ]
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Id of account
       requestBody:
         required: true
         content:
@@ -152,8 +266,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-        '401':
-          description: Calling account is not admin nor owner of altered account
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
@@ -168,11 +282,21 @@ paths:
       tags:
         - Accounts
       summary: Delete account
+      description: Accessible only to `admin`, `user:owner`
+      security:
+        - oauth2jwt: [ admin, user:owner ]
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Id of account
       responses:
         '204':
           description: Account deleted
-        '401':
-          description: Calling account is not admin nor owner of deleted account
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
@@ -184,11 +308,16 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
 
+  # Services
+
   /system/services:
     get:
       tags:
         - Services
       summary: List all services
+      description: Accessible only to `admin`
+      security:
+        - oauth2jwt: [ admin ]
       responses:
         '200':
           description: List of all services
@@ -198,8 +327,8 @@ paths:
                 type: array
                 items:
                   $ref: './components/services.yaml#/components/schemas/ServiceDTO'
-        '401':
-          description: Account is not admin
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
@@ -208,6 +337,9 @@ paths:
       tags:
         - Services
       summary: Add new service
+      description: Accessible only to `admin`
+      security:
+        - oauth2jwt: [ admin ]
       requestBody:
         required: true
         content:
@@ -227,8 +359,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-        '401':
-          description: Account is not admin
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
@@ -245,6 +377,16 @@ paths:
       tags:
         - Services
       summary: Detail of one service
+      description: Accessible only to `admin`
+      security:
+        - oauth2jwt: [ admin ]
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Id of service
       responses:
         '200':
           description: Service found
@@ -258,8 +400,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-        '401':
-          description: Account is not admin
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
@@ -274,6 +416,16 @@ paths:
       tags:
         - Services
       summary: Update service
+      description: Accessible only to `admin`
+      security:
+        - oauth2jwt: [ admin ]
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Id of service
       requestBody:
         required: true
         content:
@@ -293,8 +445,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
-        '401':
-          description: Account is not admin
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
@@ -309,11 +461,21 @@ paths:
       tags:
         - Services
       summary: Delete service
+      description: Accessible only to `admin`
+      security:
+        - oauth2jwt: [ admin ]
+      parameters:
+        - name: serviceId
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Id of service
       responses:
         '204':
           description: Service deleted
-        '401':
-          description: Account is not admin
+        '403':
+          description: Access denied
           content:
             application/json:
               schema:
@@ -324,3 +486,45 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+
+  # Proxy
+
+  /{servicePrefix}/{proxyPath}:
+    get:
+      tags:
+        - Proxy
+      summary: Universal service gateway
+      description: |
+        This endpoint is used as reverse proxy for all requests forwarding to internal services.
+        Target service is determined from `servicePrefix`. 
+        Authentication is done by JWT if it's present and valid (otherwise the target service 
+        see the request as unauthenticated).
+        The request is then resend to target service with `proxyPath`.
+        
+        `This endpoint supports all HTTP methods` (GET, POST, PUT, DELETE, ...)
+        
+        All responses are defined by target service.
+
+      parameters:
+        - name: servicePrefix
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Prefix identifies target service
+        - name: proxyPath
+          in: path
+          required: true
+          schema:
+            type: string
+          description: Rest of path which will be resend to target service
+      requestBody:
+        required: false
+        content:
+          '*/*':
+            schema:
+              type: string
+              description: Body of request which will be resend to target service
+      responses:
+        '404':
+          description: Target service was not found for given `servicePrefix`.

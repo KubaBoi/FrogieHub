@@ -1,0 +1,48 @@
+components:
+  schemas:
+    BaseResourceDTO:
+      type: object
+      properties:
+        parentId:
+          type: string
+          format: uuid
+        serviceId:
+          type: string
+          format: uuid
+        accountId:
+          type: string
+          format: uuid
+
+    CreateResourceDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceDTO'
+        - type: object
+          required:
+            - serviceId
+            - accountId
+
+    UpdateResourceDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceDTO'
+        - type: object
+
+    ResourceDTO:
+      allOf:
+        - $ref: '#/components/schemas/BaseResourceDTO'
+        - type: object
+          required:
+            - id
+            - serviceId
+            - accountId
+            - created
+            - lastChange
+          properties:
+            id:
+              type: string
+              format: uuid
+            created:
+              type: string
+              format: datetime
+            lastChange:
+              type: string
+              format: datetime

@@ -9,6 +9,9 @@ components:
           type: string
         description:
           type: string
+        icon:
+          type: string
+          format: url
         port:
           type: integer
         driverType:
@@ -38,6 +41,22 @@ components:
       allOf:
         - $ref: '#/components/schemas/BaseServiceDTO'
         - type: object
+
+    PublicServiceDTO:
+      type: object
+      required:
+        - prefix
+        - name
+      properties:
+        prefix:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        icon:
+          type: string
+          format: url
 
     ServiceDTO:
       allOf:

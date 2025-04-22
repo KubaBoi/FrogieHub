@@ -26,3 +26,18 @@ components:
           format: JWT
         account:
           $ref: '../components/accounts.yaml#/components/schemas/AccountDTO'
+
+    JwtPayload:
+      type: object
+      properties:
+        sub:
+          type: string
+          description: Account ID
+        iat:
+          type: integer
+          format: timestamp
+          description: Issued at
+        exp:
+          type: integer
+          format: timestamp
+          description: Expiration

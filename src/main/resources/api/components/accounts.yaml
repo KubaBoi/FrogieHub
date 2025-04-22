@@ -5,9 +5,6 @@ components:
       properties:
         userName:
           type: string
-        email:
-          type: string
-          format: email
 
     CreateAccountDTO:
       allOf:
@@ -26,18 +23,38 @@ components:
                 publicKey:
                   type: string
                   format: byte
+          properties:
+            email:
+              type: string
+              format: email
 
     UpdateAccountDTO:
       allOf:
         - $ref: '#/components/schemas/BaseAccountDTO'
 
-    AccountDTO:
+    PublicAccountDTO:
       allOf:
         - $ref: '#/components/schemas/BaseAccountDTO'
         - type: object
+          required:
+            - id
+            - userName
           properties:
             id:
               type: string
               format: uuid
+
+    AccountDTO:
+      allOf:
+        - $ref: '#/components/schemas/PublicAccountDTO'
+        - type: object
+          required:
+            - email
+            - role
+          properties:
+            email:
+              type: string
+              format: email
             role:
               $ref: './enums.yaml#/components/schemas/Roles'
+

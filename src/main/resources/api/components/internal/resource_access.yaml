@@ -1,0 +1,22 @@
+components:
+  schemas:
+    ResourceAccessDTO:
+      type: object
+      properties:
+        accountId:
+          type: string
+          format: uuid
+        resourceId:
+          type: string
+          format: uuid
+        read:
+          type: boolean
+        write:
+          type: boolean
+
+    SetResourceAccessDTO:
+      type: object
+      properties:
+        alteredResourcesCount:
+          description: Count of resources which has been affected
+          type: integer

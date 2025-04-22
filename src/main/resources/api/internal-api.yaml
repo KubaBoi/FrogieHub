@@ -1,0 +1,132 @@
+openapi: 3.1.0
+info:
+  title: SAG internal API
+  version: 0.0.1
+  
+components:
+  schemas:
+    ErrorDTO:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+
+paths:
+  /internal/resources:
+    post:
+      summary: Create new resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/internal/resources.yaml#/components/schemas/CreateResourceDTO'
+      responses: 
+        '201':
+          description: Resource created
+          content: 
+            application/json:
+              schema:
+                $ref: './components/internal/resources.yaml#/components/schemas/ResourceDTO'
+  
+  /internal/resources/{resourceId}:
+    get:
+      summary: Detail of resource
+      responses:
+        '200':
+          description: Detail of resource
+          content:
+            application/json:
+              schema:
+                $ref: './components/internal/resources.yaml#/components/schemas/ResourceDTO'
+        '404':
+          description: Resource not found
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    patch:
+      summary: Update resource
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/internal/resources.yaml#/components/schemas/UpdateResourceDTO'
+      responses:
+        '200':
+          description: Resource updated
+          content:
+            application/json:
+              schema:
+                $ref: './components/internal/resources.yaml#/components/schemas/ResourceDTO'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+    delete:
+      summary: Delete resource and it's accesses
+      responses: 
+        '204':
+          description: Resource and it's accesses deleted
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+
+  /internal/access:
+    put:
+      summary: Set resource access (recursively)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: './components/internal/resource_access.yaml#/components/schemas/ResourceAccessDTO'
+      responses:
+        '200':
+          description: Access set
+          content:
+            application/json:
+              schema:
+                $ref: './components/internal/resource_access.yaml#/components/schemas/SetResourceAccessDTO'
+        '404':
+          description: Resource not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+
+  /internal/access/{accountId}:
+    post:
+      summary: Decides if account can read resources
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+                format: uuid
+      responses:
+        '200':
+          description: List of resource accesses
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: './components/internal/resource_access.yaml#/components/schemas/ResourceAccessDTO'
+        '404':
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
