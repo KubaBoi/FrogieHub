@@ -278,6 +278,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorDTO'
+        '409':
+          description: Some unique account data are taken
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
     delete:
       tags:
         - Accounts
@@ -453,6 +459,12 @@ paths:
                 $ref: '#/components/schemas/ErrorDTO'
         '404':
           description: Service not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorDTO'
+        '409':
+          description: Some unique data are taken
           content:
             application/json:
               schema:
